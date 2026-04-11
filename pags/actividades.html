@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Actividades - ExploraDCC</title>
+    <link rel="stylesheet" href="../static/css/estilos.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="titulo-web">Actividades - ExploraDCC</h1>
+        <nav class="nav">
+            <a href="index.html" class="button">Inicio</a>
+            <a href="registro.html" class="button">Registrarse</a>
+            <a href="estadisticas.html" class="button">Estadísticas</a>
+        </nav><br>
+    </header>
+
+    <main>
+        <section>
+            <div>
+                <h2>Actividades Disponibles</h2>
+                <select id="filtrar-btn" class="button select">Filtrar por categoría
+                    <option value="todas">Todas</option>
+                    <option value="deportiva">Deportiva</option>
+                    <option value="cultural">Cultural</option>
+                    <option value="tecnologica">Tecnológica</option>
+                </select>
+                <button id="añadir-actividad-btn" class="button">Añadir Actividad</button>
+            </div><br>
+            <form class="añadir-card oculto" id="añadir-card-form">
+                <select id="categoria" name="categoria" class="button" required>
+                    <option value="" disabled selected>Selecciona una categoría</option>
+                    <option value="deportiva">Deportiva</option>
+                    <option value="cultural">Cultural</option>
+                    <option value="tecnologica">Tecnológica</option>
+                </select>
+                <label for="titulo-actividad">Título de la actividad:</label>
+                <input type="text" id="titulo-actividad" name="titulo-actividad" class="separation" required><br>
+                <label for="descripcion">Descripción de la actividad:</label><br>
+                <textarea id="descripcion" name="descripcion" placeholder="Descripción de la actividad" required></textarea><br>
+                <input type="date" id="dia" name="dia" placeholder="Día de la actividad (Ej: Lunes)" required>
+                <input type="time" id="hora" name="hora" placeholder="Hora de la actividad (Ej: 18:00 - 20:00)" required>
+                <input type="text" id="lugar" name="lugar" placeholder="Lugar de la actividad (Ej: Sala de Computación 101)" required><br>
+                <button type="submit" class="button">Agregar</button>
+            </form><br>
+            <article class="card visible" data-categoria="tecnologica">
+                <img src="../static/img/club_programacion.jpg" alt="Club de Programación">
+                <h3 class="card-title">
+                    <div class="categoria">
+                        Categoría: Tecnológica
+                    </div><br>
+                    Club de Programación
+                </h3>
+                <p class="card-description">Únete al club de programación para aprender y compartir tus conocimientos con otros estudiantes del DCC.</p><br>
+                <p class="card-info">
+                    <strong>Día:</strong> Lunes<br>
+                    <strong>Hora:</strong> 18:00 - 20:00<br>
+                    <strong>Lugar:</strong> Sala de Computación 101
+                </p>
+            </article><br>
+                <article class="card visible" data-categoria="deportiva">
+                    <img src="../static/img/club_futbol.jpg" alt="Club de Fútbol">
+                    <h3 class="card-title">
+                        <div class="categoria">
+                            Categoría: Deportiva
+                        </div><br>
+                        Club de Fútbol
+                    </h3>
+                    <p class="card-description">Participa en el club de fútbol para mantenerte activo y disfrutar de este deporte con tus compañeros del DCC.</p><br>
+                    <p class="card-info">
+                        <strong>Día:</strong> Miércoles<br>
+                        <strong>Hora:</strong> 17:00 - 19:00<br>
+                        <strong>Lugar:</strong> Cancha Deportiva del DCC
+                    </p>
+                </article><br>
+                <article class="card visible" data-categoria="cultural">
+                    <img src="../static/img/club_teatro.jpg" alt="Club de Teatro">
+                    <h3 class="card-title">
+                        <div class="categoria">
+                            Categoría: Cultural
+                        </div><br>
+                        Club de Teatro
+                    </h3>
+                    <p class="card-description">Explora tu creatividad y habilidades de actuación uniéndote al club de teatro del DCC, donde podrás participar en diversas producciones y talleres.</p><br>
+                    <p class="card-info">
+                        <strong>Día:</strong> Viernes<br>
+                        <strong>Hora:</strong> 16:00 - 18:00<br>
+                        <strong>Lugar:</strong> Sala de Teatro del DCC
+                    </p>
+                </article>
+        </section>
+    </main>
+    <script src="../static/js/actividades.js"></script>
+</body>
+
+</html>

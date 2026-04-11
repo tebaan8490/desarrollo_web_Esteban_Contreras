@@ -34,6 +34,7 @@ label {
 input {
     width: 100%;
     padding: 12px 15px;
+    margin-bottom: 15px;
     font-size: 16.2px;
     width: 500px;
     border-radius: 6px;
@@ -44,6 +45,16 @@ input {
 input[type="radio"] {
     width: auto;
     transform: translateY(17px);
+}
+
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    font-size: 16.2px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 .rol {
@@ -119,30 +130,56 @@ input[type="radio"] {
 .card {
     display: flex;
     gap: 15px;
-
     background: #1e293b;
-    padding: 15px;
+    padding: 5px;
     border-radius: 10px;
-
     align-items: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.card img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
+.oculto {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    position: absolute;
+}
+
+.visible {
+    opacity: 1;
+    transform: scale(1);
+    position: relative;
+}
+
+.card-title {
+    font-size: 18px;
+}
+
+.card-description {
+    font-size: card-info;
+    margin: auto;
+    max-width: 700px;
 }
 
 .card-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    flex: 1;
+    font-size: 16px;
+    color: #f1f5f9;
+    margin-right: auto;
+}
+
+.card img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 #registro-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+}
+
+#fecha {
+    grid-column: span 2;
+    width: 350px;
 }
