@@ -33,11 +33,11 @@
                 </div>
                 <div class="campo">
                     <label for="telefono">Número de teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" pattern="^\+?[1-9]\d{1,14}$" placeholder="Ingrese un número de teléfono. Ej: +56912345678" required>
+                    <input type="tel" id="telefono" name="telefono" placeholder="Ingrese un número de teléfono. Ej: +56912345678" required>
                 </div>
                 <div class="campo">
                     <label for="rut">RUT:</label>
-                    <input type="text" id="rut" name="rut" pattern="^\d{0,8}-[\dkK]$" placeholder="RUT sin puntos y con guión. Ej: 12345678-9" required>
+                    <input type="text" id="rut" name="rut" placeholder="RUT sin puntos y con guión. Ej: 12345678-9" required>
                 </div>
                 <div class="campo rol">
                     <input type="radio" id="rol-funcionario" name="rol" value="funcionario" required>
@@ -55,11 +55,11 @@
                     <label for="confirm-password">Confirmar contraseña:</label>
                     <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme su contraseña" required>
                 </div>
-                <button type="submit" class="button">Registrarse</button>
+                <button id="submit-btn" type="submit" class="button">Registrarse</button>
             </form>
         </section>
     </main>
-    <script src="../js/registro.js"></script>
+    <script src="../static/js/registro.js"></script>
 </body>
 
 </html>
