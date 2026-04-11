@@ -13,7 +13,6 @@
 
     <main>
         <section>
-            <h2 class="tituloweb">Formulario de Registro</h2>
             <div id="val-box" hidden>
                 <h2 id="val-msg"></h2>
                 <ul id="val-list"></ul>
@@ -21,19 +20,23 @@
             <form id="registro-form">
                 <div class="campo">
                     <label for="nombre">Nombre completo:</label><br>
-                    <input type="text" id="nombre" name="nombre" required><br>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre completo. Ej: Juan Pérez" required><br>
                 </div>
                 <div class="campo">
                     <label for="email">Correo electrónico:</label><br>
-                    <input type="email" id="email" name="email" required><br>
+                    <input type="email" id="email" name="email" placeholder="Ingrese su correo electrónico. Ej: juan@ejemplo.com" required><br>
                 </div>
                 <div class="campo">
                     <label for="password">Contraseña:</label><br>
-                    <input type="password" id="password" name="password" required><br>
+                    <input type="password" id="password" name="password" placeholder="Ingrese su contraseña (mínimo 6 caracteres)" required><br>
                 </div>
                 <div class="campo">
                     <label for="confirm-password">Confirmar contraseña:</label><br>
-                    <input type="password" id="confirm-password" name="confirm-password" required><br>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme su contraseña" required><br>
+                </div>
+                <div class="campo">
+                    <label for="rut">RUT:</label><br>
+                    <input type="text" id="rut" name="rut" placeholder="Ingrese su RUT sin puntos y con guión. Ej: 12345678-9" required><br>
                 </div>
                 <button type="submit" class="button">Registrarse</button>
             </form>

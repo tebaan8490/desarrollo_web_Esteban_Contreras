@@ -87,13 +87,6 @@ input {
     margin-bottom: 20px;
 }
 
-.titulo-formulario {
-    font-size: 28px;
-    color: #f1f5f9;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .campo {
     display: flex;
     flex-direction: column;
