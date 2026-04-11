@@ -18,15 +18,12 @@ p {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
     background-color: #1e293b;
     font-size: 18px;
     gap: 10px;
     padding: 20px;
-    max-width: 400px;
     border-radius: 15px;
-    margin: 0 auto;
+    margin: 0px auto;
 }
 
 label {
@@ -38,9 +35,21 @@ input {
     width: 100%;
     padding: 12px 15px;
     font-size: 16.2px;
+    width: 500px;
     border-radius: 6px;
     border: 1px solid #ccc;
     box-sizing: border-box;
+}
+
+input[type="radio"] {
+    width: auto;
+    transform: translateY(17px);
+}
+
+.rol {
+    transform: translateY(-10px);
+    padding: 12px 15px;
+    font-size: 16.2px;
 }
 
 .container {
@@ -60,7 +69,6 @@ input {
     border-radius: 5px;
     transition: background-color 0.3s ease;
     border: 1px solid #334155;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     align-self: center;
     transition: all 0.3s ease;
@@ -90,4 +98,10 @@ input {
 .campo {
     display: flex;
     flex-direction: column;
+}
+
+#registro-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
