@@ -43,7 +43,7 @@ const validarFormulario = () => {
     };
     const validarTelefono = (telefono) => {
         const re = /^\+?[1-9]\d{1,14}$/;
-        return re.test(telefono);
+        return re.test(telefono) || telefono.trim() === "";
     };
     const validarRUT = (rut) => {
         const ciclo = [2, 3, 4, 5, 6, 7];

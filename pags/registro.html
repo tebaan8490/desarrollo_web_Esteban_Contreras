@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="../static/css/estilos.css">
 </head>
 <body>
-    <header>
-        <h1 class="TituloWeb">Registro de Usuarios</h1>
+    <header class="header">
+        <h1 class="titulo-web">Registro de Usuarios</h1>
+        <nav class="nav">
+            <a href="index.html" class="button">Inicio</a>
+            <a href="actividades.html" class="button">Actividades</a>
+            <a href="estadisticas.html" class="button">Estadísticas</a>
+        </nav><br>
     </header>
 
     <main>
@@ -16,7 +21,7 @@
             <div id="val-box" hidden>
                 <h2 id="val-msg"></h2>
                 <ul id="val-list"></ul>
-            </div>
+            </div><br>
             <form id="registro-form">
                 <h3>Datos de registro</h3><br>
                 <div class="campo">
@@ -33,7 +38,7 @@
                 </div>
                 <div class="campo">
                     <label for="telefono">Número de teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" placeholder="Ingrese un número de teléfono. Ej: +56912345678" required>
+                    <input type="tel" id="telefono" name="telefono" placeholder="Ingrese un número de teléfono. Ej: +56912345678">
                 </div>
                 <div class="campo">
                     <label for="rut">RUT:</label>

@@ -90,6 +90,10 @@ input[type="radio"] {
 .titulo-web {
     font-size: 36px;
     color: #f1f5f9;
+    padding: 40px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
     border-color: #334155;
     text-align: center;
     margin-bottom: 20px;
@@ -98,6 +102,43 @@ input[type="radio"] {
 .campo {
     display: flex;
     flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.card {
+    display: flex;
+    gap: 15px;
+
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+
+    align-items: center;
+}
+
+.card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
 }
 
 #registro-form {
