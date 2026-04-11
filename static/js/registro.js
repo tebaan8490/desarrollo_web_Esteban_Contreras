@@ -35,10 +35,10 @@ const passwordConditions = (password) => {
 };
 
 const validarFormulario = () => {
-    const validarUsuario = (usuario) => usuario.trim() != "";
+    const validarUsuario = (usuario) => usuario.trim() != "" && /^[a-zA-Z0-9_]{3,20}$/.test(usuario);
     const validarNombre = (nombre) => nombre.trim() != "" && /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre);
     const validarEmail = (email) => {
-        const re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        const re = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
         return re.test(email);
     };
     const validarTelefono = (telefono) => {
@@ -46,8 +46,19 @@ const validarFormulario = () => {
         return re.test(telefono);
     };
     const validarRUT = (rut) => {
+        const ciclo = [2, 3, 4, 5, 6, 7];
+        let suma = 0;
+        const partes = rut.split('-');
+        const rutSinDV = partes[0].replace(/\./g, '').split("").reverse().join('');
+        for (let i = 0; i < rutSinDV.length; i++) {
+            suma += parseInt(rutSinDV[i]) * ciclo[i%6];
+        }
+        let dv = 11 - (suma % 11);
+        if (dv === 11) dv = 0;
+        if (dv === 10) dv = 'k';
+
         const re = /^\d{0,8}-[\dkK]$/;
-        return re.test(rut.replaceAll(/\./g, ''));
+        return re.test(rut.replaceAll(/\./g, '')) && (dv == partes[1].toLowerCase());
     };
     const validarPassword = (password) => [
         password.length >= 6 && 
