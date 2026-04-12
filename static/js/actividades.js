@@ -28,6 +28,9 @@ const crearCardActividad = (titulo, descripcion, lugar, dia, hora, imagen) => {
     card.appendChild(cardInfo);
 
     const actividadesContainer = document.getElementById("actividades-container");
+    card.addEventListener("click", () => {
+        card.classList.toggle("activa");
+    });
     actividadesContainer.appendChild(card);
 };
 
@@ -128,4 +131,10 @@ agregarCardBtn.addEventListener("click", (event) => {
         formulario.classList.remove("oculto");
         formulario.classList.add("visible");
     }
+});
+
+document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
+        card.classList.toggle("activa");
+    });
 });

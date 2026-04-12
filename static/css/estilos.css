@@ -186,6 +186,23 @@ input[type="checkbox"] {
     border-radius: 8px;
 }
 
+.card-extra {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.card-extra p {
+    font-size: 16px;
+}
+
+.card.activa .card-extra {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 10px;
+}
+
 .dia-checkbox {
     display: flex;
     align-items: center;
