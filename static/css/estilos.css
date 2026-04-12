@@ -150,6 +150,12 @@ input[type="checkbox"] {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+.card-usuario {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
 .oculto {
     opacity: 0;
     transform: scale(0.95);
@@ -208,6 +214,14 @@ input[type="checkbox"] {
     align-items: center;
     gap: 10px;
     transform: translateY(3px);
+}
+
+.paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
 }
 
 #registro-form {
