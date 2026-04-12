@@ -14,26 +14,26 @@
             <a href="registro.html" class="button">Registrarse</a>
             <a href="estadisticas.html" class="button">Estadísticas</a>
             <a href="usuarios.html" class="button">Usuarios</a>
-        </nav><br>
+        </nav>
     </header>
 
     <main>
         <section>
             <div>
                 <h2>Actividades Disponibles</h2>
-                <select id="filtro-categoria" class="button select">Filtrar por categoría
+                <select id="filtro-categoria" class="button select">
                     <option value="todas">Todas</option>
                     <option value="deportiva">Deportiva</option>
                     <option value="cultural">Cultural</option>
                     <option value="tecnologica">Tecnológica</option>
                     <option value="otra">Otra</option>
                 </select>
-                <button type="submit" id="añadir-actividad-btn" class="button">Añadir Actividad</button>
-            </div><br>
+                <button type="button" id="añadir-actividad-btn" class="button">Añadir Actividad</button>
+            </div>
             <div id="error-box" hidden>
                 <h2 id="error-msg"></h2>
                 <ul id="error-list"></ul>
-            </div><br>
+            </div>
             <form class="añadir-card oculto" id="añadir-card-form">
                 <select id="categoria" name="categoria" class="button select" required>
                     <option value="" selected>Selecciona una categoría</option>
@@ -43,9 +43,9 @@
                     <option value="otra">Otra</option>
                 </select>
                 <label for="titulo-actividad">Título de la actividad:</label>
-                <input type="text" id="titulo-actividad" name="titulo-actividad" class="separation" required><br>
-                <label for="descripcion">Descripción de la actividad:</label><br>
-                <textarea id="descripcion" name="descripcion" placeholder="Descripción de la actividad" required></textarea><br>
+                <input type="text" id="titulo-actividad" name="titulo-actividad" class="separation" required>
+                <label for="descripcion">Descripción de la actividad:</label>
+                <textarea id="descripcion" name="descripcion" placeholder="Descripción de la actividad" required></textarea>
                 <section id="dias">
                     <h3>Días de la actividad:</h3>
                     <label class="dia-checkbox">
@@ -79,69 +79,63 @@
                 </section>
                 <input type="text" id="hora" name="hora" placeholder="Hora de la actividad (Ej: 18:00 - 20:00)" required>
                 <input type="text" id="lugar" name="lugar" placeholder="Lugar de la actividad (Ej: Sala de Computación 101)" required>
-                <input type="file" id="imagen" name="imagen" accept="image/*"><br>
+                <input type="file" id="imagen" name="imagen" accept="image/*">
                 <button type="submit" id="submit-actividad-btn" class="button">Agregar</button>
-            </form><br>
+            </form>
             <section id="actividades-container">
                 <article class="card visible" data-categoria="tecnologica">
-                    <img src="../static/img/Adobe Express - file.jpg" alt="Club de Programación">
-                    <h3 class="card-titulo">
-                        <div class="categoria">
-                            Categoría: Tecnológica
-                        </div><br>
+                    <img src="../static/img/Adobe_Express-file.jpg" alt="Club de Programación">
+                    <h3 class="card-title">
+                        Categoría: Tecnológica<br>
                         Club de Programación
                     </h3>
-                    <p class="card-descripcion">Únete al club de programación para aprender y compartir tus conocimientos con otros estudiantes del DCC.</p><br>
+                    <p class="card-descripcion">Únete al club de programación para aprender y compartir tus conocimientos con otros estudiantes del DCC.</p>
                     <p class="card-info">
                         <strong>Día:</strong> Lunes<br>
                         <strong>Hora:</strong> 18:00 - 20:00<br>
                         <strong>Lugar:</strong> Sala B101
                     </p>
-                    <article class="card-extra">
-                        <p>Publicado por Ana López</p>
-                        <p>Teléfono: 555-123-4567</p>
-                        <p>Correo: ana.lopez@ug.uchile.cl</p>
-                    </article>
+                    <p class="card-extra">
+                        Publicado por Ana López<br>
+                        Teléfono: 555-123-4567<br>
+                        Correo: ana.lopez@ug.uchile.cl
+                    </p>
                 </article>
                 <article class="card visible" data-categoria="deportiva">
-                    <img src="../static/img/Adobe Express - file (1).jpg" alt="Club de Fútbol">
-                    <h3 class="card-titulo">
-                        <div class="categoria">
-                            Categoría: Deportiva
-                        </div><br>
+                    <img src="../static/img/Adobe_Express-file(1).jpg" alt="Club de Fútbol">
+                    <h3 class="card-title">
+                        Categoría: Deportiva<br>
                         Club de Fútbol
                     </h3>
-                    <p class="card-descripcion">Participa en el club de fútbol para mantenerte activo y disfrutar de este deporte con tus compañeros del DCC.</p><br>
+                    <p class="card-descripcion">Participa en el club de fútbol para mantenerte activo y disfrutar de este deporte con tus compañeros del DCC.</p>
                     <p class="card-info">
                         <strong>Día:</strong> Miércoles<br>
                         <strong>Hora:</strong> 17:00 - 19:00<br>
                         <strong>Lugar:</strong> Cancha Deportiva 850
                     </p>
-                    <article class="card-extra">
-                        <p>Publicado por María González</p>
-                        <p>Teléfono: 987-654-3210</p>
-                        <p>Correo: maria.gonzalez@ug.uchile.cl</p>
-                    </article>
+                    <p class="card-extra">
+                        Publicado por María González<br>
+                        Teléfono: 987-654-3210<br>
+                        Correo: maria.gonzalez@ug.uchile.cl
+                    </p>
                 </article>
                 <article class="card visible" data-categoria="cultural">
-                    <img src="../static/img/Adobe Express - file (2).jpg" alt="Club de Teatro">
-                    <h3 class="card-titulo">
-                        <div class="categoria">
-                            Categoría: Cultural
-                        </div><br>
+                    <img src="../static/img/Adobe_Express-file(2).jpg" alt="Club de Teatro">
+                    <h3 class="card-title">
+                        Categoría: Cultural<br>
                         Club de Teatro
                     </h3>
-                    <p class="card-descripcion">Explora tu creatividad y habilidades de actuación uniéndote al club de teatro del DCC, donde podrás participar en diversas producciones y talleres.</p><br>
+                    <p class="card-descripcion">Explora tu creatividad y habilidades de actuación uniéndote al club de teatro del DCC, donde podrás participar en diversas producciones y talleres.</p>
                     <p class="card-info">
                         <strong>Día:</strong> Viernes<br>
                         <strong>Hora:</strong> 16:00 - 18:00<br>
                         <strong>Lugar:</strong> Sala de Música -3 851
                     </p>
-                    <article class="card-extra">
-                        <p>Publicado por Carlos Pérez</p>
-                        <p>Teléfono: 555-987-6543</p>
-                        <p>Correo: carlos.perez@ug.uchile.cl</p>
-                    </article>
+                    <p class="card-extra">
+                        Publicado por Carlos Pérez<br>
+                        Teléfono: 555-987-6543<br>
+                        Correo: carlos.perez@ug.uchile.cl
+                    </p>
                 </article>
             </section>
         </section>

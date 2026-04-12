@@ -7,14 +7,18 @@ const crearCardActividad = (titulo, descripcion, lugar, dia, hora, imagen) => {
     img.src = url;
     img.alt = titulo;
 
+    const categoriaElegida = document.getElementById("categoria")
+    card.dataset.categoria = categoriaElegida.value;
+
+    const categoria = document.createElement("h3");
+    categoria.innerHTML = `
+        Categoría: ${categoriaElegida.options[categoriaElegida.selectedIndex].text}<br>
+        ${titulo}
+    `;
+
     const cardTitle = document.createElement("h3");
     cardTitle.className = "card-titulo";
-
-    const categoria = document.createElement("div");
-    const categoriaElegida = document.getElementById("categoria")
-    categoria.className = "categoria";
-    categoria.innerText = "Categoría: " + categoriaElegida.options[categoriaElegida.selectedIndex].text;
-    card.dataset.categoria = categoriaElegida.value
+    cardTitle.innerText = titulo
 
     cardTitle.appendChild(categoria);
     cardTitle.appendChild(document.createTextNode(titulo));
@@ -27,10 +31,20 @@ const crearCardActividad = (titulo, descripcion, lugar, dia, hora, imagen) => {
     cardInfo.className = "card-info";
     cardInfo.innerHTML = `<strong>Día: ${dia}</strong><br><strong>Hora: ${hora}</strong><br><strong>Lugar: ${lugar}</strong>`;
 
+    const cardExtra = document.createElement("p");
+    cardExtra.className = "card-extra";
+    cardExtra.innerHTML = `
+        Publicado por usuario<br>
+        Teléfono: Sin teléfono<br>
+        Correo: usuario@ejemplo.com
+    `;
+
     card.appendChild(img);
+    card.appendChild(categoria);
     card.appendChild(cardTitle);
     card.appendChild(cardDesc);
     card.appendChild(cardInfo);
+    card.appendChild(cardExtra);
 
     const actividadesContainer = document.getElementById("actividades-container");
     card.addEventListener("click", () => {

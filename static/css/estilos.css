@@ -22,11 +22,14 @@ form {
     font-size: 18px;
     gap: 10px;
     padding: 20px;
+    margin-bottom: 15px;
     border-radius: 15px;
     margin: 0px auto;
 }
 
 label {
+    margin-top: 5px;
+    display: block;
     margin-bottom: 5px;
     color: #f1f5f9;
 }
@@ -44,7 +47,7 @@ input {
 
 input[type="radio"] {
     width: auto;
-    transform: translateY(17px);
+    transform: translateY(33px);
 }
 
 textarea {
@@ -87,6 +90,7 @@ input[type="checkbox"] {
 .button {
     display: inline-block;
     padding: 10px 20px;
+    margin-bottom: 5px;
     background-color: #6366f1;
     color: #f1f5f9;
     text-decoration: none;
@@ -136,16 +140,18 @@ input[type="checkbox"] {
 
 .nav {
     margin-left: auto;
+    margin-bottom: 1rem;
     display: flex;
     gap: 10px;
 }
 
 .card {
     display: flex;
-    gap: 15px;
+    gap: 10px;
+    margin-top: 10px;
     background: #1e293b;
     padding: 5px;
-    border-radius: 10px;
+    border-radius: 0px;
     align-items: center;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -171,18 +177,18 @@ input[type="checkbox"] {
 
 .card-title {
     font-size: 18px;
+    max-width: 150px;
 }
 
-.card-description {
+.card-descripcion {
     font-size: card-info;
-    margin: auto;
-    max-width: 700px;
+    max-width: 600px;
 }
 
 .card-info {
     font-size: 16px;
     color: #f1f5f9;
-    margin-right: auto;
+    max-width: 150px;
 }
 
 .card img {
@@ -193,7 +199,9 @@ input[type="checkbox"] {
 }
 
 .card-extra {
+    font-size: 16px;
     max-height: 0;
+    max-width: 300px;
     overflow: hidden;
     opacity: 0;
     transition: all 0.3s ease;
@@ -243,4 +251,8 @@ input[type="checkbox"] {
 
 #imagen {
     width: 350px;
+}
+
+#error-box {
+    margin: 25px;
 }
