@@ -3,14 +3,19 @@ const crearCardActividad = (titulo, descripcion, lugar, dia, hora, imagen) => {
     card.className = "card visible";
 
     const img = document.createElement("img");
-    img.src = imagen;
+    const url = URL.createObjectURL(imagen)
+    img.src = url;
     img.alt = titulo;
 
     const cardTitle = document.createElement("h3");
     cardTitle.className = "card-titulo";
+
     const categoria = document.createElement("div");
+    const categoriaElegida = document.getElementById("categoria")
     categoria.className = "categoria";
-    categoria.innerText = "Categoría: " + document.getElementById("categoria").value;
+    categoria.innerText = "Categoría: " + categoriaElegida.options[categoriaElegida.selectedIndex].text;
+    card.dataset.categoria = categoriaElegida.value
+
     cardTitle.appendChild(categoria);
     cardTitle.appendChild(document.createTextNode(titulo));
 
@@ -20,7 +25,7 @@ const crearCardActividad = (titulo, descripcion, lugar, dia, hora, imagen) => {
 
     const cardInfo = document.createElement("p");
     cardInfo.className = "card-info";
-    cardInfo.innerHTML = `<strong>Día:</strong> ${dia}<br><strong>Hora:</strong> ${hora}<br><strong>Lugar:</strong> ${lugar}>`;
+    cardInfo.innerHTML = `<strong>Día: ${dia}</strong><br><strong>Hora: ${hora}</strong><br><strong>Lugar: ${lugar}</strong>`;
 
     card.appendChild(img);
     card.appendChild(cardTitle);
@@ -39,9 +44,8 @@ const validarFormularioActividad = () => {
     const validarTitulo = (titulo) => titulo.trim() === "";
     const validarDescripcion = (descripcion) => descripcion.trim() === "";
     const validarLugar = (lugar) => lugar.trim() === "";
-    const validarDia = () => {
-        const dias = document.querySelectorAll('input[name="dia"]:checked');
-        return dias.length > 0;
+    const validarDia = (dias) => {
+        return dias.length === 0;
     };
     const validarHora = (hora) => {
         const re = /^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)$/;
@@ -56,11 +60,13 @@ const validarFormularioActividad = () => {
     const titulo = formulario["titulo-actividad"].value;
     const descripcion = formulario["descripcion"].value;
     const lugar = formulario["lugar"].value;
-    const dia = formulario["dia"].value;
+    const checkbox = formulario.querySelectorAll("input[name='dia']:checked");
     const hora = formulario["hora"].value;
     const imagen = formulario["imagen"].value;
+    const imagenArchivo = formulario["imagen"].files[0];
 
-    const dias = Array.from(dia).map(d => d.value).join(", ");
+    const checkboxes = Array.from(checkbox).map(d => d.value)
+    const dias = checkboxes.join(", ");
     if (validarTitulo(titulo)) {
         errores.push("El título no puede estar vacío.");
     }
@@ -70,7 +76,7 @@ const validarFormularioActividad = () => {
     if (validarLugar(lugar)) {
         errores.push("El lugar no puede estar vacío.");
     }
-    if (validarDia()) {
+    if (validarDia(checkboxes)) {
         errores.push("Debes seleccionar al menos un día.");
     }
     if (!validarHora(hora)) {
@@ -94,9 +100,9 @@ const validarFormularioActividad = () => {
         errorBox.hidden = false;
     } else {
         errorBox.hidden = true;
+        crearCardActividad(titulo, descripcion, lugar, dias, hora, imagenArchivo);
+        formulario.reset();
     }
-    crearCardActividad(titulo, descripcion, lugar, dias, hora, imagen);
-    formulario.reset();
 };
 
 let submitActividadBtn = document.getElementById("submit-actividad-btn");
