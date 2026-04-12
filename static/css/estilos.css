@@ -57,6 +57,19 @@ textarea {
     box-sizing: border-box;
 }
 
+article {
+    background-color: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="checkbox"] {
+    width: auto;
+    margin: 10px;
+    padding: 0;
+}
+
 .rol {
     transform: translateY(-10px);
     padding: 12px 15px;
@@ -173,6 +186,13 @@ textarea {
     border-radius: 8px;
 }
 
+.dia-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(3px);
+}
+
 #registro-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -181,5 +201,15 @@ textarea {
 
 #fecha {
     grid-column: span 2;
+    width: 350px;
+}
+
+#dias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#imagen {
     width: 350px;
 }
