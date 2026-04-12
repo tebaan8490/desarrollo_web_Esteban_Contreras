@@ -181,7 +181,7 @@ input[type="checkbox"] {
 }
 
 .card-descripcion {
-    font-size: card-info;
+    font-size: 16px;
     max-width: 600px;
 }
 
