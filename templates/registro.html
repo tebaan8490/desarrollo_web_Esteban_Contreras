@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Registro - ExploraDCC</title>
-    <link rel="stylesheet" href="../static/css/estilos.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Registro{% endblock %}
+
+{% block content %}
     <header class="header">
         <h1 class="titulo-web">Registro de Usuarios</h1>
         <nav class="nav">
@@ -65,7 +60,7 @@
             </form>
         </section>
     </main>
-    <script src="../static/js/registro.js"></script>
-</body>
-
-</html>
+{% endblock %}
+{% block script %}
+    <script src="{{ url_for('static', filename='js/registro.js') }}"></script>
+{% endblock %}
