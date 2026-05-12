@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, session
+from sqlalchemy.orm import sessionmaker
 from database import models
 from database import db
 from werkzeug.utils import secure_filename
@@ -6,6 +7,7 @@ import hashlib
 import filetype
 import os
 import uuid
+import math
 
 UPLOAD_FOLDER = 'static/uploads'
 
@@ -54,11 +56,25 @@ def login():
 
 @app.route('/actividades', methods = ['GET', 'POST'])
 def actividades():
+    
     return render_template('actividades.html')
 
-@app.route('/usuarios', methods = ['GET'])
+@app.route('/usuarios', methods=['GET'])
 def usuarios():
-    return render_template('usuarios.html')
+    rol = request.args.get('rol', 'todos')
+    orden = request.args.get('orden', 'nombre-asc')
+    pagina = request.args.get('page', 1, type=int)
+    
+    usuarios, total_resultados = db.get_miembros_paginados(pagina, orden, rol)
+
+    total_paginas = math.ceil(total_resultados / 5)
+
+    return render_template('usuarios.html', 
+                           usuarios=usuarios,   
+                           pagina_actual=pagina,
+                           total_paginas = total_resultados,
+                           rol_actual=rol,
+                           orden_actual=orden)
 
 @app.route('/estadisticas', methods = ['GET'])
 def estadisticas():

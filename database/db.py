@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, select, asc, desc, func
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from database.models import Base, Miembro, Actividad, Foto, Comuna, Region
 import datetime
@@ -105,3 +105,38 @@ def try_login(nombre_usuario, contrasena):
         return False, "Usuario o contraseña incorrectos."
     
     return True, None
+
+def get_miembros_paginados(pagina, orden, rol = 'todos'):
+    session = SessionLocal()
+
+    usuarios = []
+    total_resultados = 0
+    try:
+        res = select(Miembro)
+
+        if rol != 'todos':
+            res = res.where(Miembro.rol == rol)
+        
+        if orden == 'nombre-asc':
+            res = res.order_by(asc(Miembro.nombre_persona))
+        elif orden == 'nombre-desc':
+            res = res.order_by(desc(Miembro.nombre_persona))
+        
+        conteo = select(func.count()).select_from(res.subquery())
+        total_resultados = session.scalar(conteo)
+
+        if total_resultados is None:
+            total_resultados = 0
+
+        offset = (pagina -1) *5
+        res = res.limit(5).offset(offset)
+
+        usuarios = session.scalars(res).all()
+        
+
+    except Exception as e:
+        raise e
+    finally:
+        session.close()
+
+    return usuarios, total_resultados

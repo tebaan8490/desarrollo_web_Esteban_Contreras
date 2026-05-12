@@ -17,22 +17,32 @@
             <div>
                 <h2>Lista de Usuarios</h2>
                 <select id="filtro-rol" class="button select">
-                    <option value="todos">Todos</option>
-                    <option value="estudiante">Estudiante</option>
-                    <option value="docente">Docente</option>
-                    <option value="funcionario">Funcionario</option>
+                    <option value="todos" {% if rol_actual == 'todos' %}selected{% endif %}>Todos</option>
+                    <option value="estudiante" {% if rol_actual == 'estudiante' %}selected{% endif %}>Estudiante</option>
+                    <option value="docente" {% if rol_actual == 'docente' %}selected{% endif %}>Docente</option>
+                    <option value="funcionario" {% if rol_actual == 'funcionario' %}selected{% endif %}>Funcionario</option>
                 </select>
                 <select id="filtro-orden" class="button select">
-                    <option value="nombre-asc">Nombre (A-Z)</option>
-                    <option value="nombre-desc">Nombre (Z-A)</option>
+                    <option value="nombre-asc" {% if orden_actual == 'nombre-asc' %}selected{% endif %}>Nombre (A-Z)</option>
+                    <option value="nombre-desc" {% if orden_actual == 'nombre-desc' %}selected{% endif %}>Nombre (Z-A)</option>
                 </select>
             </div><br>
             <section id="usuarios">
-                <section id="usuario-container" class="usuario-container"></section>
-
-                <section id="paginacion" class="paginacion">
+                <section id="usuario-container" class="usuario-container">
+                    {% for usuario in usuarios %}
+                        <article class="card-usuario card visible">
+                            <h3>{{ usuario.nombre_persona }}</h3>
+                            <p>{{ usuario.telefono }}</p>
+                            <p>{{ usuario.correo }}</p>
+                            <p>{{ usuario.rol }}</p>
+                        </article>
+                    {% else %}
+                        <p>No se encontraron resultados</p>
+                    {% endfor %}
+                </section>
+                <section id="paginacion" class="paginacion" data-actual = {{ pagina_actual }} data-total = {{ total_paginas }}>
                     <button id="anterior-pag" class="button">Anterior</button>
-                    <div id="numero-pag">Página 1</div>
+                    <div id="numero-pag">Página {{ pagina_actual }}</div>
                     <button id="proxima-pag" class="button">Siguiente</button>
                 </section>
             </section>
