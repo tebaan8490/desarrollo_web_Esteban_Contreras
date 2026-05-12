@@ -9,18 +9,18 @@
             <a href="{{ url_for('actividades') }}" class="button">Actividades</a>
             <a href="{{ url_for('estadisticas') }}" class="button">Estadísticas</a>
             <a href="{{ url_for('usuarios') }}" class="button">Usuarios</a>
-        </nav><br>
+        </nav>
     </header>
 
     <main>
         <section>
             {% if error %}
             <div id="val-box" hidden>
-                <h2 id="val-msg"></h2>
+                <h2 id="val-msg">{{ error }}</h2>
                 <ul id="val-list"></ul>
-            </div><br>
+            </div>
             {% endif %}
-            <form id="registro-form">
+            <form id="registro-form" action=" {{ url_for('registro') }}" method='POST'>
                 <h3>Datos de registro</h3><br>
                 <div class="campo">
                     <label for="username">Nombre de usuario:</label>
@@ -49,6 +49,26 @@
                     <label for="rol-docente">Docente</label>
                     <input type="radio" id="rol-estudiante" name="rol" value="estudiante" required>
                     <label for="rol-estudiante">Estudiante</label>
+                </div>
+                <div class="campo">
+                    <label for="region">Región:</label>
+                    <select id="region" name="id_region" required>
+                        <option value="">Seleccione una región</option>
+                        {% for region in regiones %}
+                            <option value="{{ region.id }}">{{ region.nombre_region }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="comuna">Comuna:</label>
+                    <select id="comuna" name="id_comuna" required>
+                        <option value="">Seleccione una comuna</option>
+                        {% for comuna in comunas %}
+                            <option value="{{ comuna.id }}" data-region="{{ comuna.region_id }}">
+                                {{ comuna.nombre_comuna }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="campo">
                     <label for="password">Contraseña:</label>

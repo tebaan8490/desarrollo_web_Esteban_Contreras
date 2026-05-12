@@ -1,4 +1,4 @@
-from sqlalchemy import DateTime, Column, Integer, BigInteger, String, Enum, ForeignKey, Text
+from sqlalchemy import DateTime, Column, Integer, BigInteger, String, Enum, ForeignKey, Text, func
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -35,7 +35,7 @@ class Miembro(Base):
     telefono = Column(String(15), nullable=False)
     rut = Column(String(12), nullable=False)
     rol = Column(Enum('estudiante', 'funcionario', 'docente', name='rol_enum'), nullable=False)
-    fecha_registro = Column(DateTime, nullable=False)
+    fecha_registro = Column(DateTime, default=func.now(), nullable=False)
     comuna_id = Column(Integer, ForeignKey('comuna.id'), nullable=False)
     region_id = Column(Integer, nullable=False) # Se mantiene sin ForeignKey porque el SQL no declara el CONSTRAINT
     contrasena = Column(String(255), nullable=False)

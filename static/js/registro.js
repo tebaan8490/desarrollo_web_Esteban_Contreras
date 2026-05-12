@@ -1,35 +1,16 @@
-const mostrarErrores = (errores) => {
-    const valBox = document.getElementById('val-box');
-    const valMsg = document.getElementById('val-msg');
-    const valList = document.getElementById('val-list');
-    valMsg.innerText = "Errores de Validación:";
-    valList.innerHTML = "";
-    errores.forEach(error => {
-        let li = document.createElement('li');
-        li.innerText = error;
-        valList.append(li);
-    });
-    valBox.hidden = false;
-};
-
-const ocultarErrores = () => {
-    const valBox = document.getElementById('val-box');
-    valBox.hidden = true;
-};
-
-const passwordConditions = (password) => {
+const condicionesContrasena = (password) => {
     const conditions = [];
     if (password.length < 6) {
-        conditions.push("La contraseña debe tener al menos 6 caracteres.");
+        conditions.push("La contraseña debe tener al menos 6 caracteres.\n");
     }
     if (!/[A-Z]/.test(password)) {
-        conditions.push("La contraseña debe contener al menos una letra mayúscula.");
+        conditions.push("La contraseña debe contener al menos una letra mayúscula.\n");
     }
     if (!/[a-z]/.test(password)) {
-        conditions.push("La contraseña debe contener al menos una letra minúscula.");
+        conditions.push("La contraseña debe contener al menos una letra minúscula.\n");
     }
     if (!/\d/.test(password)) {
-        conditions.push("La contraseña debe contener al menos un número.");
+        conditions.push("La contraseña debe contener al menos un número.\n");
     }
     return conditions;
 };
@@ -60,12 +41,24 @@ const validarFormulario = () => {
         const re = /^\d{0,8}-[\dkK]$/;
         return re.test(rut.replaceAll(/\./g, '')) && (dv == partes[1].toLowerCase());
     };
+    const validarRol = () => {
+        const rol = document.getElementsByName("rol");
+        let eleccion = null;
+
+        rol.forEach((radio) => {
+            if (radio.checked) {
+                return true;
+            }
+        })
+
+        return false;
+    };
     const validarPassword = (password) => [
         password.length >= 6 && 
         /[A-Z]/.test(password) && 
         /[a-z]/.test(password) && 
         /\d/.test(password),
-        passwordConditions(password)
+        condicionesContrasena(password)
     ];
     const validarConfirmPassword = (password, confirmPassword) => password === confirmPassword;
 
@@ -75,7 +68,6 @@ const validarFormulario = () => {
     const email = formulario["email"].value;
     const telefono = formulario["telefono"].value;
     const rut = formulario["rut"].value;
-    const rol = formulario["rol"].value;
     const password = formulario["password"].value;
     const confirmPassword = formulario["confirm-password"].value;
 
@@ -84,33 +76,32 @@ const validarFormulario = () => {
     const errores = [];
 
     if (!validarUsuario(usuario)) {
-        errores.push("El nombre de usuario no puede estar vacío.");
+        errores.push("El nombre de usuario no puede estar vacío.\n");
     }
     if (!validarNombre(nombre)) {
-        errores.push("El nombre completo no puede estar vacío y solo puede contener letras y espacios.");
+        errores.push("El nombre completo no puede estar vacío y solo puede contener letras y espacios.\n");
     }
     if (!validarEmail(email)) {
-        errores.push("El correo electrónico no es válido.");
+        errores.push("El correo electrónico no es válido.\n");
     }
     if (!validarTelefono(telefono)) {
-        errores.push("El número de teléfono no es válido.");
+        errores.push("El número de teléfono no es válido.\n");
     }
     if (!validarRUT(rut)) {
-        errores.push("El RUT no es válido.");
+        errores.push("El RUT no es válido.\n");
     }
     if (PasswordValido === false) {
         errores.push(...passwordErrores);
     }
     if (!validarConfirmPassword(password, confirmPassword)) {
-        errores.push("Las contraseñas no coinciden.");
+        errores.push("Las contraseñas no coinciden.\n");
     }
     
     if (errores.length > 0) {
-        mostrarErrores(errores);
+        alert(errores);
     } else {
-        ocultarErrores();
-        formulario.reset();
-        window.location.href = "index.html";
+        alert("Te has registrado correctamente!");
+        formulario.submit();
     }
 };
 
@@ -118,4 +109,20 @@ let submitBtn = document.getElementById("submit-btn");
 submitBtn.addEventListener("click", (event) => {
     event.preventDefault();
     validarFormulario();
+});
+
+const regionSelect = document.getElementById('region');
+const comunaSelect = document.getElementById('comuna');
+const todasLasComunas = Array.from(comunaSelect.options);
+
+regionSelect.addEventListener('change', function() {
+    const regionId = this.value;
+    
+    comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
+    
+    const comunasFiltradas = todasLasComunas.filter(opt => 
+        opt.getAttribute('data-region') === regionId || opt.value === ""
+    );
+    
+    comunasFiltradas.forEach(opt => comunaSelect.appendChild(opt));
 });

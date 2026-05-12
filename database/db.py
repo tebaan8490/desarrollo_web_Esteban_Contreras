@@ -82,15 +82,26 @@ def register_user(data_formulario):
         if get_list_by(
             Miembro,
             1,
-            {'nombre_usuario': data_formulario["nombre_usuario"]}
-            ) is not None:
+            {'nombre_usuario': data_formulario["username"]}
+        ) != []:
             return False, 'El nombre de usuario ya está en uso.'
         elif get_list_by(
             Miembro,
             1,
             {'email': data_formulario['email']}
-        ):
+        ) != []:
             return False, 'El correo ya está en uso.'
+        data_formulario = {
+            'nombre_usuario': data_formulario['username'],
+            'nombre_persona': data_formulario['nombre'],
+            'email': data_formulario['email'],
+            'telefono': data_formulario['telefono'],
+            'rut': data_formulario['rut'],
+            'rol': data_formulario['rol'],
+            'comuna_id': data_formulario['id_comuna'],
+            'region_id': data_formulario['id_region'],
+            'contrasena': data_formulario['password']
+        }
         create_user(data_formulario)
         return True, None
     except Exception as e:
@@ -140,3 +151,13 @@ def get_miembros_paginados(pagina, orden, rol = 'todos'):
         session.close()
 
     return usuarios, total_resultados
+
+def get_all(table):
+    session = SessionLocal()
+    try:
+        elements = session.query(table).all()
+    except Exception as e:
+        raise e
+    finally:
+        session.close()
+    return elements

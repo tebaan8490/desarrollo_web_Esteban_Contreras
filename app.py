@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session
 from sqlalchemy.orm import sessionmaker
-from database import models
-from database import db
+from database import models, db, validaciones
 from werkzeug.utils import secure_filename
 import hashlib
 import filetype
@@ -20,23 +19,35 @@ app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16Mb
 def index():
     return render_template("index.html")
 
-@app.route('/registro', methods = ['GET', 'POST'])
+@app.route('/registro', methods=['GET', 'POST'])
 def registro():
+    regiones = db.get_all(models.Region)
+    comunas = db.get_all(models.Comuna)
     if request.method == 'POST':
-        error = ''
-        status, msg = db.register_user(request.form.to_dict)
+        datos_formulario = request.form.to_dict()
+        
+        for llave, valor in datos_formulario.items():
+            print(f"Campo: {llave} | Valor: {valor}")
+        
+        errores_validacion = validaciones.validar_datos_registro(datos_formulario)
+        
+        if errores_validacion:
+            error_msg = "\n".join(errores_validacion)
+            return render_template('registro.html', comunas=comunas, regiones=regiones, error=error_msg)
+
+        status, msg = db.register_user(datos_formulario)
+        
         if status:
-            session['user'] = request.form.get('nombre_usuario')
+            session['user'] = datos_formulario.get('username') 
             return redirect(url_for('index'))
         
-        error += str(msg)
-        return render_template('registro.html', error=error)
+        return render_template('registro.html', comunas=comunas, regiones=regiones, error=str(msg))
     
-    elif request.method == "GET" and session.get("user", None):
+    if session.get("user"):
         return redirect(url_for("index"))
     
-    return render_template("registro.html")
-        
+    return render_template("registro.html", comunas=comunas, regiones=regiones)
+    
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if request.method == 'POST':
