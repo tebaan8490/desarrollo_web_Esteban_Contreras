@@ -24,7 +24,7 @@ USE `tarea2` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tarea2`.`region` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(200) NOT NULL,
+  `nombre_region` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tarea2`.`comuna` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(200) NOT NULL,
+  `nombre_comuna` VARCHAR(200) NOT NULL,
   `region_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_comuna_region1_idx` (`region_id` ASC),
@@ -52,7 +52,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `tarea2`.`miembro` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `nombre_usuario` VARCHAR(255) NOT NULL,
-  `nombre` VARCHAR(255) NOT NULL,
+  `nombre_persona` VARCHAR(255) NOT NULL,
   `email` VARCHAR(80) NOT NULL,
   `telefono` VARCHAR(15) NOT NULL,
   `rut` VARCHAR(12) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `tarea2`.`miembro` (
   `fecha_registro` DATETIME NOT NULL,
   `comuna_id` INT NOT NULL,
   `region_id` INT NOT NULL,
-  `contraseña` VARCHAR(255) NOT NULL,
+  `contrasena` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_miembro_comuna1_idx` (`comuna_id` ASC),
   CONSTRAINT `fk_miembro_comuna1`
@@ -76,12 +76,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tarea2`.`actividad` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `miembro_id` INT NOT NULL,
-  `dia` ENUM('lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo') NOT NULL,
+  `miembro_id` BIGINT NOT NULL,
+  `dia` ENUM('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo') NOT NULL,
   `hora_inicio` VARCHAR(5) NOT NULL,
   `duracion` VARCHAR(5) NOT NULL,
-  `tipo` ENUM('arte', 'deporte', 'tecnología', 'social', 'recreación', 'otra') NOT NULL,
-  `nombre` VARCHAR(45) NOT NULL,
+  `tipo` ENUM('arte', 'deporte', 'tecnologia', 'social', 'recreacion', 'otra') NOT NULL,
+  `nombre_actividad` VARCHAR(45) NOT NULL,
   `descripcion` TEXT(500) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_actividad_miembro1_idx` (`miembro_id` ASC),

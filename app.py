@@ -40,7 +40,7 @@ def login():
     if request.method == 'POST':
         error = ''
         user = request.form.get('nombre_usuario')
-        password = request.form.get('contraseña')
+        password = request.form.get('contrasena')
         status, msg = db.try_login(user, password)
             
         if status:

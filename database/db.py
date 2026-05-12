@@ -96,12 +96,12 @@ def register_user(data_formulario):
     except Exception as e:
         raise e
     
-def try_login(nombre_usuario, contraseña):
-    a_user = get_list_by(Miembro, 1, make_dict(['nombre_usuario', 'contraseña'], [nombre_usuario, contraseña]))
+def try_login(nombre_usuario, contrasena):
+    a_user = get_list_by(Miembro, 1, make_dict(['nombre_usuario', 'contrasena'], [nombre_usuario, contrasena]))
     if a_user is None:
         return False, "Usuario o contraseña incorrectos."
     
-    if a_user[0].contraseña != contraseña:
+    if a_user[0].contrasena != contrasena:
         return False, "Usuario o contraseña incorrectos."
     
     return True, None
