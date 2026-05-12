@@ -5,10 +5,10 @@
     <header class="header">
         <h1 class="titulo-web">Usuarios - ExploraDCC</h1>
         <nav class="nav">
-            <a href="index.html" class="button">Inicio</a>
-            <a href="registro.html" class="button">Registrarse</a>
-            <a href="actividades.html" class="button">Actividades</a>
-            <a href="estadisticas.html" class="button">Estadísticas</a>
+            <a href="{{ url_for('index') }}" class="button">Inicio</a>
+            <a href="{{ url_for('registro') }}" class="button">Registrarse</a>
+            <a href="{{ url_for('actividades') }}" class="button">Actividades</a>
+            <a href="{{ url_for('estadisticas') }}" class="button">Estadísticas</a>
         </nav>
     </header>
 
