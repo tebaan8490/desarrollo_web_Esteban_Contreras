@@ -4,7 +4,8 @@
     <header class="header">
         <h1 class="titulo-web">Actividades - ExploraDCC</h1>
         <nav class="nav">
-            <a href="{{ url_for('index') }}" class="button">Inicio</a>
+            <a href="{{ url_for('index') }}" class="button">Salir</a>
+            <a href="{{ url_for('inicio') }}" class="button">Inicio</a>
             <a href="{{ url_for('registro') }}" class="button">Registrarse</a>
             <a href="{{ url_for('estadisticas') }}" class="button">Estadísticas</a>
             <a href="{{ url_for('usuarios') }}" class="button">Usuarios</a>
@@ -77,24 +78,26 @@
                 <button type="submit" id="submit-actividad-btn" class="button">Agregar</button>
             </form>
             <section id="actividades-container">
-                <article class="card visible" data-categoria="tecnologica">
-                    <img src="../static/img/Adobe_Express-file.jpg" alt="Club de Programación">
-                    <h3 class="card-title">
-                        Categoría: Tecnológica<br>
-                        Club de Programación
-                    </h3>
-                    <p class="card-descripcion">Únete al club de programación para aprender y compartir tus conocimientos con otros estudiantes del DCC.</p>
-                    <p class="card-info">
-                        <strong>Día:</strong> Lunes<br>
-                        <strong>Hora:</strong> 18:00 - 20:00<br>
-                        <strong>Lugar:</strong> Sala B101
-                    </p>
-                    <p class="card-extra">
-                        Publicado por Ana López<br>
-                        Teléfono: 555-123-4567<br>
-                        Correo: ana.lopez@ug.uchile.cl
-                    </p>
-                </article>
+                {% for actividad in actividades %}
+                    <article class="card visible" data-categoria="{{ actividad.tipo }}">
+                        <img src="{{ actividad.img }}" alt="{{ actividad.nombre_actividad }}">
+                        <h3 class="card-title">
+                            Categoría: {{ actividad.tipo }}<br>
+                            {{ actividad.nombre_actividad }}
+                        </h3>
+                        <p class="card-descripcion"> {{ actividad.descripcion}}
+                        <p class="card-info">
+                            <strong>Día:</strong> {{ actividad.dia }}<br>
+                            <strong>Hora:</strong> {{ actividad.hora }}<br>
+                            <strong>Lugar:</strong> {{ actividad.lugar }}
+                        </p>
+                        <p class="card-extra">
+                            Publicado por {{ actividad.nombre_persona }}<br>
+                            Teléfono: {{ actividad.telefono }}<br>
+                            Correo: {{ actividad.correo }}
+                        </p>
+                    </article>
+                {% endfor %}
                 <article class="card visible" data-categoria="deportiva">
                     <img src="../static/img/Adobe_Express-file(1).jpg" alt="Club de Fútbol">
                     <h3 class="card-title">

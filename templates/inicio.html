@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}ExploraDCC{% endblock %}
+{% block content %}
+<body>
+    <header>
+        <h1 class="tituloweb">¡Bienvenido a ExploraDCC!</h1>
+        <nav class="menu">
+            <a href="{{ url_for('index') }}" class="button">Salir</a>
+            <a href="{{ url_for('registro') }}" class="button">Registrarse</a>
+            <a href="{{ url_for('actividades') }}" class="button">Actividades</a>
+            <a href="{{ url_for('estadisticas') }}" class="button">Estadísticas</a>
+            <a href="{{ url_for('usuarios') }}" class="button">Usuarios</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Bienvenida</h2>
+            <p>Este es un sitio web dedicado a mostrar actividades recreativas que desarrollan los estudiantes del DCC, por favor, siéntete libre de explorar y participar.</p>
+        </section>
+    </main>
+{% endblock %}
+{% block script %}
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
