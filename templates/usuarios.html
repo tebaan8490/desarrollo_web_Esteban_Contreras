@@ -31,7 +31,7 @@
                 <section id="usuario-container" class="usuario-container">
                     {% for usuario in usuarios %}
                         <article class="card-usuario card visible">
-                            <h3>{{ usuario.nombre_persona }}</h3>
+                            <a href="{{ url_for('perfil_usuario', miembro_id = usuario.id) }}">{{ usuario.nombre_persona }}</a>
                             <p>{{ usuario.telefono }}</p>
                             <p>{{ usuario.email }}</p>
                             <p>{{ usuario.rol }}</p>
