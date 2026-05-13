@@ -6,7 +6,6 @@
         <nav class="nav">
             <a href="{{ url_for('index') }}" class="button">Salir</a>
             <a href="{{ url_for('inicio') }}" class="button">Inicio</a>
-            <a href="{{ url_for('registro') }}" class="button">Registrarse</a>
             <a href="{{ url_for('estadisticas') }}" class="button">Estadísticas</a>
             <a href="{{ url_for('usuarios') }}" class="button">Usuarios</a>
         </nav>
@@ -25,9 +24,9 @@
                 </select>
                 <button type="button" id="añadir-actividad-btn" class="button">Añadir Actividad</button>
             </div>
-            <div id="error-box" hidden>
-                <h2 id="error-msg"></h2>
-                <ul id="error-list"></ul>
+            {% if error %}
+                <div id="error-box">
+                    <h3 id="error-msg">{{ error }}</h3>
             </div>
             <form class="añadir-card oculto" id="añadir-card-form">
                 <select id="categoria" name="categoria" class="button select" required>

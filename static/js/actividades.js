@@ -62,9 +62,12 @@ const validarFormularioActividad = () => {
         return dias.length === 0;
     };
     const validarHora = (hora) => {
-        const re = /^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)$/;
+        const re = /^([01]\d|2[0-3]):([0-5]\d)$/;
         return re.test(hora);
     };
+    const validarDuracion = (duracion) => {
+        return (typeof valor === 'number' && !isNaN(valor))
+    }
     const validarImagen = (imagen) => {
         const re = /\.(jpg|jpeg|png|gif)$/i;
         return re.test(imagen);
@@ -76,6 +79,7 @@ const validarFormularioActividad = () => {
     const lugar = formulario["lugar"].value;
     const checkbox = formulario.querySelectorAll("input[name='dia']:checked");
     const hora = formulario["hora"].value;
+    const duracion = formulario["duracion"].value;
     const imagen = formulario["imagen"].value;
     const imagenArchivo = formulario["imagen"].files[0];
 
@@ -95,6 +99,9 @@ const validarFormularioActividad = () => {
     }
     if (!validarHora(hora)) {
         errores.push("La hora debe estar en formato HH:MM (24 horas).");
+    }
+    if (!validarDuracion(duracion)) {
+        errores.push("La duración debe de ser un número, la cantidad de horas de la actividad");
     }
     if (!validarImagen(imagen)) {
         errores.push("La imagen debe ser un archivo con extensión .jpg, .jpeg, .png o .gif.");

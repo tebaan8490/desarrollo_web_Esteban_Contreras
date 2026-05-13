@@ -54,11 +54,11 @@ const validarFormulario = () => {
         return false;
     };
     const validarPassword = (password) => [
-        password.length >= 6 && 
+        password.trim().length >= 6 && 
         /[A-Z]/.test(password) && 
         /[a-z]/.test(password) && 
         /\d/.test(password),
-        condicionesContrasena(password)
+        condicionesContrasena(password.trim())
     ];
     const validarConfirmPassword = (password, confirmPassword) => password === confirmPassword;
 

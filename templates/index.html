@@ -3,7 +3,7 @@
 
 {% block content %}
     <header class="header">
-        <h1 class="titulo-web">Iniciar Sesión</h1>
+        <h1 class="titulo-web">Iniciar Sesión</h1><br>
     </header>
     <main>
         <section>
@@ -12,8 +12,7 @@
                 <h3 id="val-msg">{{ error }}</h3>
             </div>
             {% endif %}
-
-            <form id="login-form" action="{{ url_for('login') }}" method="POST">
+            <form id="login-form" action="{{ url_for('index') }}" method="POST">
                 <h3>Ingresa a tu cuenta</h3><br>
                 <div class="campo">
                     <label for="nombre_usuario">Nombre de usuario:</label>
@@ -25,11 +24,11 @@
                 </div>
                 <button id="submit-btn" type="submit" class="button">Ingresar</button>
                 ¿No tienes cuenta?
-                <a href" {{ url_for('registro') }}" class="button">Regístrate</a>
+                <a href=" {{ url_for('registro') }}" class="button">Regístrate</a>
             </form>
         </section>
     </main>
 {% endblock %}
 {% block script %}
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

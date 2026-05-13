@@ -15,9 +15,31 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'S3cR3t_k3Y'
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16Mb
 
-@app.route('/', methods = ['GET'])
+@app.route('/', methods = ['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    if session.get('user'):
+        session.pop("user", None)
+    
+    if request.method == 'POST':
+        error = ''
+        user = request.form.get('nombre_usuario')
+        password = request.form.get('contrasena')
+        status, msg = db.try_login(user, password)
+            
+        if status:
+            session['user'] = user
+            return redirect(url_for('inicio'))
+        
+        error += str(msg)
+        return render_template('index.html', error=error)
+        
+    return render_template('index.html')
+
+@app.get('/inicio')
+def inicio():
+    if not session.get('user'):
+        return redirect(url_for('index'))
+    return render_template('inicio.html')
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -47,23 +69,6 @@ def registro():
         return redirect(url_for("index"))
     
     return render_template("registro.html", comunas=comunas, regiones=regiones)
-    
-@app.route('/login', methods = ['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        error = ''
-        user = request.form.get('nombre_usuario')
-        password = request.form.get('contrasena')
-        status, msg = db.try_login(user, password)
-            
-        if status:
-            session['user'] = user
-            return redirect(url_for('index'))
-        
-        error += str(msg)
-        return render_template('login', error=error)
-        
-    return render_template('login.html')
 
 @app.route('/actividades', methods = ['GET', 'POST'])
 def actividades():
@@ -89,6 +94,8 @@ def usuarios():
 
 @app.route('/estadisticas', methods = ['GET'])
 def estadisticas():
+    if not session.get('user'):
+        return redirect(url_for('index'))
     return render_template('estadisticas.html')
 
 if __name__ == "__main__":

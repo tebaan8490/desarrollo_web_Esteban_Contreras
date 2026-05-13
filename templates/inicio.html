@@ -6,7 +6,6 @@
         <h1 class="tituloweb">¡Bienvenido a ExploraDCC!</h1>
         <nav class="menu">
             <a href="{{ url_for('index') }}" class="button">Salir</a>
-            <a href="{{ url_for('registro') }}" class="button">Registrarse</a>
             <a href="{{ url_for('actividades') }}" class="button">Actividades</a>
             <a href="{{ url_for('estadisticas') }}" class="button">Estadísticas</a>
             <a href="{{ url_for('usuarios') }}" class="button">Usuarios</a>
@@ -20,5 +19,5 @@
     </main>
 {% endblock %}
 {% block script %}
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/inicio.js') }}"></script>
 {% endblock %}
