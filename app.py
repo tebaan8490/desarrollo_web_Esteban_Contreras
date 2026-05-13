@@ -21,6 +21,15 @@ def index():
         session.pop("user", None)
         session.pop("id", None)
     
+    sessionq = db.SessionLocal()
+    try:
+        miembros = sessionq.query(models.Miembro).order_by(models.Miembro.fecha_registro.desc()).limit(5).all()
+    except Exception as e:
+        print(e)
+        raise e
+    finally:
+        sessionq.close()
+
     if request.method == 'POST':
         error = ''
         user = request.form.get('nombre_usuario')
@@ -36,9 +45,9 @@ def index():
             return redirect(url_for('inicio'))
         
         error += str(msg)
-        return render_template('index.html', error=error)
+        return render_template('index.html', usuarios=miembros, error=error)
         
-    return render_template('index.html')
+    return render_template('index.html', usuarios=miembros)
 
 @app.get('/inicio')
 def inicio():
