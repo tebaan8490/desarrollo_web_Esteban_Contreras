@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS `tarea2`.`actividad` (
   `hora_inicio` VARCHAR(5) NOT NULL,
   `duracion` VARCHAR(5) NOT NULL,
   `tipo` ENUM('arte', 'deporte', 'tecnologia', 'social', 'recreacion', 'otra') NOT NULL,
+  `lugar` VARCHAR(45) NOT NULL,
   `nombre_actividad` VARCHAR(45) NOT NULL,
   `descripcion` TEXT(500) NULL,
   PRIMARY KEY (`id`),

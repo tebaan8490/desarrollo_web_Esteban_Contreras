@@ -54,6 +54,7 @@ class Actividad(Base):
     hora_inicio = Column(String(5), nullable=False)
     duracion = Column(String(5), nullable=False)
     tipo = Column(Enum('arte', 'deporte', 'tecnologia', 'social', 'recreacion', 'otra', name='tipo_enum'), nullable=False)
+    lugar = Column(String(50), nullable=False)
     nombre_actividad = Column(String(45), nullable=False)
     descripcion = Column(Text, nullable=True)
 

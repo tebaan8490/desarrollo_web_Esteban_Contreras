@@ -112,7 +112,7 @@ def register_user(data_formulario):
     
 def try_login(nombre_usuario, contrasena):
     a_user = get_list_by(Miembro, 1, make_dict(['nombre_usuario', 'contrasena'], [nombre_usuario, contrasena]))
-    if a_user is None:
+    if a_user == []:
         return False, "Usuario o contraseña incorrectos."
     
     if a_user[0].contrasena != contrasena:
@@ -191,7 +191,7 @@ def create_actividad(datos_actividad, archivo_img, miembro_id):
         nueva_actividad = Actividad(
             miembro_id=miembro_id,
             dia=str_dias,
-            hora=datos_actividad.get('hora'),
+            hora_inicio=datos_actividad.get('hora'),
             duracion=datos_actividad.get('duracion'),
             tipo=datos_actividad.get('categoria'),
             nombre_actividad=datos_actividad.get('titulo-actividad'),
