@@ -119,9 +119,8 @@ input[type="checkbox"] {
     font-size: 36px;
     color: #f1f5f9;
     padding: 40px;
-    left: 50%;
+    left: 0%;
     position: absolute;
-    transform: translateX(-50%);
     border-color: #334155;
     text-align: center;
     margin-bottom: 20px;
