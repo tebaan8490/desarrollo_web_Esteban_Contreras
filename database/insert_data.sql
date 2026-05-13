@@ -18,6 +18,6 @@ INSERT INTO actividad (`id`, `miembro_id`, `dia`, `hora_inicio`, `duracion`, `ti
 
 -- 3. Insertar Fotos
 INSERT INTO foto (`ruta_archivo`, `nombre_archivo`, `actividad_id`) VALUES 
-('../static/img/', 'Adobe_Express-file.jpg', 1),
-('../static/img/', 'Adobe_Express-file(1).jpg', 2),
-('../static/img/', 'Adobe_Express-file(2).jpg', 3);
+('../static/uploads/', 'Adobe_Express-file.jpg', 1),
+('../static/uploads/', 'Adobe_Express-file(1).jpg', 2),
+('../static/uploads/', 'Adobe_Express-file(2).jpg', 3);

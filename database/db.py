@@ -2,6 +2,8 @@ from sqlalchemy import create_engine, Column, Integer, BigInteger, String, Forei
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from database.models import Base, Miembro, Actividad, Foto, Comuna, Region
 import datetime
+import os
+from app import UPLOAD_FOLDER
 
 DB_NAME = 'tarea2'
 DB_USERNAME = 'cc5002'
