@@ -66,7 +66,7 @@ const validarFormularioActividad = () => {
         return re.test(hora);
     };
     const validarDuracion = (duracion) => {
-        return (typeof valor === 'number' && !isNaN(valor))
+        return !isNaN(Number(duracion)) && duracion.trim() !== "";
     }
     const validarImagen = (imagen) => {
         const re = /\.(jpg|jpeg|png|gif)$/i;
@@ -121,8 +121,7 @@ const validarFormularioActividad = () => {
         errorBox.hidden = false;
     } else {
         errorBox.hidden = true;
-        crearCardActividad(titulo, descripcion, lugar, dias, hora, imagenArchivo);
-        formulario.reset();
+        formulario.submit();
     }
 };
 

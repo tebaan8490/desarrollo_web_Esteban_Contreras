@@ -19,15 +19,20 @@ app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 # 16Mb
 def index():
     if session.get('user'):
         session.pop("user", None)
+        session.pop("id", None)
     
     if request.method == 'POST':
         error = ''
         user = request.form.get('nombre_usuario')
         password = request.form.get('contrasena')
         status, msg = db.try_login(user, password)
-            
+        
+        sessionq = db.SessionLocal()
+
         if status:
             session['user'] = user
+            session['id'] = sessionq.query(models.Miembro.id).filter(models.Miembro.nombre_usuario == user).scalar()
+            sessionq.close()
             return redirect(url_for('inicio'))
         
         error += str(msg)
@@ -116,7 +121,20 @@ def usuarios():
 
 @app.get('/perfil_usuario/<int:miembro_id>')
 def perfil_usuario(miembro_id):
-    return render_template('perfil_usuario.html')
+    perfil = db.get_list_by(models.Miembro, 1, {'id': miembro_id})
+
+    if not perfil:
+        return redirect(url_for('inicio'))
+    
+    session = db.SessionLocal()
+    try:
+        actividades = session.query(models.Actividad, models.Foto).outerjoin(models.Foto, models.Actividad.id == models.Foto.actividad_id).filter(models.Actividad.miembro_id == miembro_id).all()
+    except Exception as e:
+        return render_template('perfil_usuario.html', error='No se pudo obtener el perfil del usuario')
+    finally:
+        session.close()
+
+    return render_template('perfil_usuario.html', perfil=perfil[0], actividades=actividades)
 
 @app.route('/estadisticas', methods = ['GET'])
 def estadisticas():

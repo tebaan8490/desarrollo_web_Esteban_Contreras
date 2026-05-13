@@ -27,6 +27,17 @@
                 <a href=" {{ url_for('registro') }}" class="button">Regístrate</a>
             </form>
         </section>
+        <section>
+            <p>¡¡Últimos usuarios registrados!!</p>
+            {% for usuario in usuarios %}
+                <article class="card-usuario card">
+                    <p>{{ usuario.nombre_persona }}</p>
+                    <p>{{ usuario.telefono }}</p>
+                    <p>{{ usuario.email }}</p>
+                    <p>{{ usuario.rol }}</p>
+                </article>
+            {% endfor %}
+        </section>
     </main>
 {% endblock %}
 {% block script %}

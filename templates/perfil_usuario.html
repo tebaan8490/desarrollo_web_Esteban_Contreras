@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil de {{ perfil.nombre_usuario }}{% endblock %}
+
+{% block content %}
+    <main>
+        <a href="{{ url_for('actividades') }}" class="button">&larr; Volver a Actividades</a>
+        <section class="perfil-card">
+            <h1>Perfil de Usuario</h1>
+            <hr>
+            <div>
+                <p><strong>Nombre Real:</strong> {{ perfil.nombre_persona }}</p>
+                <p><strong>Nombre de Usuario:</strong> @{{ perfil.nombre_usuario }}</p>
+                <p><strong>Rol:</strong> <span>{{ perfil.rol }}</span></p>
+                <p><strong>Email:</strong> {{ perfil.email }}</p>
+                <p><strong>Teléfono:</strong> {{ perfil.telefono }}</p>
+                <p><strong>Fecha de Registro:</strong> {{ perfil.fecha_registro.strftime('%d-%m-%Y') if perfil.fecha_registro else 'N/A' }}</p>
+            </div>
+        </section>
+        <section class="actividades-usuario">
+            <h2>Actividades publicadas por {{ perfil.nombre_usuario }}</h2>
+            {% if actividades %}
+                <div>
+                    {% for actividad, foto in actividades %}
+                        <article class="tarjeta-actividad">
+                            {% if foto %}
+                                <div>
+                                    <img src="{{ url_for('static', filename=foto.ruta_archivo + foto.nombre_archivo) }}" alt="{{ actividad.nombre_actividad }}" style="width: 180px; height: 180px; object-fit: cover; border-radius: 8px;">
+                                </div>
+                            {% endif %}
+                            <div>
+                                <h3>{{ actividad.nombre_actividad }}</h3>
+                                <strong>Categoría:</strong> {{ actividad.tipo }}<br>
+                                <strong>Días:</strong> {{ actividad.dia }}<br>
+                                <strong>Horario:</strong> {{ actividad.hora_inicio }} ({{ actividad.duracion }} hrs)<br>
+                                <strong>Lugar:</strong> {{ actividad.lugar }}
+                                <p>{{ actividad.descripcion }}</p>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div>
+                    <p>Este usuario aún no ha publicado ninguna actividad.</p>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+{% endblock %}

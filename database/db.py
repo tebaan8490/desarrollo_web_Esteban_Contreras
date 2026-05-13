@@ -184,9 +184,6 @@ def create_actividad(datos_actividad, archivo_img, miembro_id):
     try:
         dias_seleccionados = datos_actividad.getlist('dia')
         str_dias = ','.join(dias_seleccionados)
-        
-        for key, value in datos_actividad:
-            print(key, value)
 
         nueva_actividad = Actividad(
             miembro_id=miembro_id,
@@ -194,6 +191,7 @@ def create_actividad(datos_actividad, archivo_img, miembro_id):
             hora_inicio=datos_actividad.get('hora'),
             duracion=datos_actividad.get('duracion'),
             tipo=datos_actividad.get('categoria'),
+            lugar=datos_actividad.get('lugar'),
             nombre_actividad=datos_actividad.get('titulo-actividad'),
             descripcion=datos_actividad.get('descripcion')
         )

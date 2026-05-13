@@ -73,9 +73,9 @@ def validar_datos_actividad(form_data, archivos):
     duracion = form_data.get('duracion', '').strip()
     lugar = form_data.get('lugar', '').strip()
     imagen = archivos.get('imagen')
-    dias_seleccionados = form_data.getList('dia')
+    dias_seleccionados = form_data.getlist('dia')
 
-    categorias_validas = ['deportiva', 'cultural', 'tecnologica', 'otra']
+    categorias_validas = ['deporte', 'arte', 'tecnologia', 'otra']
     if categoria not in categorias_validas:
         errores.append("Debes seleccionar una categoría válida.")
 
@@ -118,7 +118,7 @@ def validar_imagen(archivo_flask):
     if tipo is None:
         return False
     
-    if tipo.mime in extensiones_permitidas:
-        return True, tipo.extension
+    if tipo.extension in extensiones_permitidas:
+        return True
     else:
         return False

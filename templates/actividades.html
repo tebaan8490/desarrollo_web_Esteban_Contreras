@@ -17,24 +17,26 @@
                 <h2>Actividades Disponibles</h2>
                 <select id="filtro-categoria" class="button select">
                     <option value="todas">Todas</option>
-                    <option value="deportiva">Deportiva</option>
-                    <option value="cultural">Cultural</option>
-                    <option value="tecnologica">Tecnológica</option>
+                    <option value="deporte">Deportiva</option>
+                    <option value="arte">Cultural</option>
+                    <option value="tecnologia">Tecnológica</option>
                     <option value="otra">Otra</option>
                 </select>
                 <button type="button" id="añadir-actividad-btn" class="button">Añadir Actividad</button>
             </div>
-            {% if error %}
-                <div id="error-box">
-                    <h3 id="error-msg">{{ error }}</h3>
-                </div>
-            {% endif %}
+            <div id="error-box">
+                <h3 id="error-msg"></h3>
+                <ul id="error-list"></ul>
+                {% if error %}
+                <p>{{ error }}</p>
+                {% endif %}
+            </div>
             <form class="añadir-card oculto" id="añadir-card-form" action="{{ url_for('actividades') }}" enctype="multipart/form-data" method='POST'>
                 <select id="categoria" name="categoria" class="button select" required>
-                    <option value="" selected>Selecciona una categoría</option>
-                    <option value="deportiva">Deportiva</option>
-                    <option value="cultural">Cultural</option>
-                    <option value="tecnologica">Tecnológica</option>
+                    <option value="todas">Todas</option>
+                    <option value="deporte">Deportiva</option>
+                    <option value="arte">Cultural / Arte</option>
+                    <option value="tecnologia">Tecnológica</option>
                     <option value="otra">Otra</option>
                 </select>
                 <label for="titulo-actividad">Título de la actividad:</label>
@@ -89,53 +91,17 @@
                         <p class="card-descripcion"> {{ actividad.descripcion}}
                         <p class="card-info">
                             <strong>Día:</strong> {{ actividad.dia }}<br>
-                            <strong>Hora:</strong> {{ actividad.hora }}<br>
+                            <strong>Hora:</strong> {{ actividad.hora_inicio }}<br>
                             <strong>Duración:</strong>{{ actividad.duracion }}<br>
                             <strong>Lugar:</strong> {{ actividad.lugar }}
                         </p>
                         <p class="card-extra">
-                            Publicado por <a href="{{ url_for('perfil_usuario', id_miembro = miembro.id) }}">{{ miembro.nombre_persona }}</a><br>
-                            Teléfono: {{ actividad.telefono }}<br>
-                            Correo: {{ actividad.correo }}
+                            Publicado por <a href="{{ url_for('perfil_usuario', miembro_id = miembro.id) }}">{{ miembro.nombre_persona }}</a><br>
+                            Teléfono: {{ miembro.telefono }}<br>
+                            Correo: {{ miembro.email }}
                         </p>
                     </article>
                 {% endfor %}
-                <article class="card visible" data-categoria="deportiva">
-                    <img src="../static/img/Adobe_Express-file(1).jpg" alt="Club de Fútbol">
-                    <h3 class="card-title">
-                        Categoría: Deportiva<br>
-                        Club de Fútbol
-                    </h3>
-                    <p class="card-descripcion">Participa en el club de fútbol para mantenerte activo y disfrutar de este deporte con tus compañeros del DCC.</p>
-                    <p class="card-info">
-                        <strong>Día:</strong> Miércoles<br>
-                        <strong>Hora:</strong> 17:00 - 19:00<br>
-                        <strong>Lugar:</strong> Cancha Deportiva 850
-                    </p>
-                    <p class="card-extra">
-                        Publicado por María González<br>
-                        Teléfono: 987-654-3210<br>
-                        Correo: maria.gonzalez@ug.uchile.cl
-                    </p>
-                </article>
-                <article class="card visible" data-categoria="cultural">
-                    <img src="../static/img/Adobe_Express-file(2).jpg" alt="Club de Teatro">
-                    <h3 class="card-title">
-                        Categoría: Cultural<br>
-                        Club de Teatro
-                    </h3>
-                    <p class="card-descripcion">Explora tu creatividad y habilidades de actuación uniéndote al club de teatro del DCC, donde podrás participar en diversas producciones y talleres.</p>
-                    <p class="card-info">
-                        <strong>Día:</strong> Viernes<br>
-                        <strong>Hora:</strong> 16:00 - 18:00<br>
-                        <strong>Lugar:</strong> Sala de Música -3 851
-                    </p>
-                    <p class="card-extra">
-                        Publicado por Carlos Pérez<br>
-                        Teléfono: 555-987-6543<br>
-                        Correo: carlos.perez@ug.uchile.cl
-                    </p>
-                </article>
             </section>
         </section>
     </main>
