@@ -61,22 +61,44 @@ def registro():
         
         if status:
             session['user'] = datos_formulario.get('username') 
-            return redirect(url_for('index'))
+            return redirect(url_for('inicio'))
         
         return render_template('registro.html', comunas=comunas, regiones=regiones, error=str(msg))
     
     if session.get("user"):
-        return redirect(url_for("index"))
+        return redirect(url_for("inicio"))
     
     return render_template("registro.html", comunas=comunas, regiones=regiones)
 
 @app.route('/actividades', methods = ['GET', 'POST'])
 def actividades():
+    if not session.get('user'):
+        return redirect(url_for('index'))
     
-    return render_template('actividades.html')
+    filtro = request.args.get('filtro', '')
+    actividades_filtradas = db.get_actividades(filtro)
+
+    if request.method == 'POST':
+        error = validaciones.validar_datos_actividad(request.form, request.files)
+
+        if error != []:
+            return render_template('actividades.html', actividades=actividades_filtradas, error=error)
+        
+        datos_actividad = request.form
+        miembro_id = session.get('id')
+        resultado = db.create_actividad(datos_actividad, request.files, miembro_id)
+
+        if resultado:
+            return redirect(url_for('actividades'))
+        else:
+            return render_template('actividades.html', actividades=actividades_filtradas, error=["Error al guardar en base de datos"])
+
+    return render_template('actividades.html', actividades=actividades_filtradas)
 
 @app.route('/usuarios', methods=['GET'])
 def usuarios():
+    if not session.get('user'):
+        return redirect(url_for('index'))
     rol = request.args.get('rol', 'todos')
     orden = request.args.get('orden', 'nombre-asc')
     pagina = request.args.get('page', 1, type=int)
@@ -91,6 +113,10 @@ def usuarios():
                            total_paginas = total_resultados,
                            rol_actual=rol,
                            orden_actual=orden)
+
+@app.get('/perfil_usuario/<int:miembro_id>')
+def perfil_usuario(miembro_id):
+    return render_template('perfil_usuario.html')
 
 @app.route('/estadisticas', methods = ['GET'])
 def estadisticas():

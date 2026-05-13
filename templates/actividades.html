@@ -27,8 +27,9 @@
             {% if error %}
                 <div id="error-box">
                     <h3 id="error-msg">{{ error }}</h3>
-            </div>
-            <form class="añadir-card oculto" id="añadir-card-form">
+                </div>
+            {% endif %}
+            <form class="añadir-card oculto" id="añadir-card-form" action="{{ url_for('actividades') }}" enctype="multipart/form-data" method='POST'>
                 <select id="categoria" name="categoria" class="button select" required>
                     <option value="" selected>Selecciona una categoría</option>
                     <option value="deportiva">Deportiva</option>
@@ -71,15 +72,16 @@
                         Domingo
                     </label><br>
                 </section>
-                <input type="text" id="hora" name="hora" placeholder="Hora de la actividad (Ej: 18:00 - 20:00)" required>
+                <input type="text" id="hora" name="hora" placeholder="Hora de la actividad (Ej: 18:00)" required>
+                <input type="text" id="duracion" name="duracion" placeholder="Cantidad de horas" required>
                 <input type="text" id="lugar" name="lugar" placeholder="Lugar de la actividad (Ej: Sala de Computación 101)" required>
                 <input type="file" id="imagen" name="imagen" accept="image/*">
                 <button type="submit" id="submit-actividad-btn" class="button">Agregar</button>
             </form>
             <section id="actividades-container">
-                {% for actividad in actividades %}
+                {% for actividad, miembro, foto in actividades %}
                     <article class="card visible" data-categoria="{{ actividad.tipo }}">
-                        <img src="{{ actividad.img }}" alt="{{ actividad.nombre_actividad }}">
+                        <img src="{{ url_for('static', filename=foto.ruta_archivo + foto.nombre_archivo) }}" alt="{{ actividad.nombre_actividad }}">
                         <h3 class="card-title">
                             Categoría: {{ actividad.tipo }}<br>
                             {{ actividad.nombre_actividad }}
@@ -88,10 +90,11 @@
                         <p class="card-info">
                             <strong>Día:</strong> {{ actividad.dia }}<br>
                             <strong>Hora:</strong> {{ actividad.hora }}<br>
+                            <strong>Duración:</strong>{{ actividad.duracion }}<br>
                             <strong>Lugar:</strong> {{ actividad.lugar }}
                         </p>
                         <p class="card-extra">
-                            Publicado por {{ actividad.nombre_persona }}<br>
+                            Publicado por <a href="{{ url_for('perfil_usuario', id_miembro = miembro.id) }}">{{ miembro.nombre_persona }}</a><br>
                             Teléfono: {{ actividad.telefono }}<br>
                             Correo: {{ actividad.correo }}
                         </p>

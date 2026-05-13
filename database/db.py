@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, select, asc, desc, func
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from database.models import Base, Miembro, Actividad, Foto, Comuna, Region
+from werkzeug.utils import secure_filename
 import datetime
 import os
 from app import UPLOAD_FOLDER
@@ -163,3 +164,65 @@ def get_all(table):
     finally:
         session.close()
     return elements
+
+
+def get_actividades(tipo_actividad):
+    session = SessionLocal()
+    try:
+        if tipo_actividad == '':
+            res = session.query(Actividad, Miembro, Foto).join(Miembro, Actividad.miembro_id == Miembro.id).join(Foto, Actividad.id == Foto.actividad_id).all()
+        else:
+            res = session.query(Actividad, Miembro, Foto).join(Miembro, Actividad.miembro_id == Miembro.id).join(Foto, Actividad.id == Foto.actividad_id).filter(Actividad.tipo == tipo_actividad).all()
+    except Exception as e:
+        raise e
+    finally:
+        session.close()
+    return res
+
+def create_actividad(datos_actividad, archivo_img, miembro_id):
+    session = SessionLocal()
+    try:
+        dias_seleccionados = datos_actividad.getlist('dia')
+        str_dias = ','.join(dias_seleccionados)
+        
+        for key, value in datos_actividad:
+            print(key, value)
+
+        nueva_actividad = Actividad(
+            miembro_id=miembro_id,
+            dia=str_dias,
+            hora=datos_actividad.get('hora'),
+            duracion=datos_actividad.get('duracion'),
+            tipo=datos_actividad.get('categoria'),
+            nombre_actividad=datos_actividad.get('titulo-actividad'),
+            descripcion=datos_actividad.get('descripcion')
+        )
+
+        session.add(nueva_actividad)
+        session.flush()
+
+        imagen = archivo_img.get('imagen')
+        nombre_archivo = secure_filename(imagen.filename)
+        ruta_carpeta = UPLOAD_FOLDER
+        if not os.path.exists(ruta_carpeta):
+                os.makedirs(ruta_carpeta)
+        ruta_final = os.path.join(ruta_carpeta, nombre_archivo)
+        imagen.save(ruta_final)
+
+        nueva_foto = Foto(
+            ruta_archivo='uploads/',
+            nombre_archivo=nombre_archivo,
+            actividad_id=nueva_actividad.id
+        )
+
+        session.add(nueva_foto)
+        session.commit()
+
+        return True
+
+    except Exception as e:
+        session.rollback()
+        print('Ha ocurrido el siguiente error: ' + str(e))
+        return False
+    finally:
+        session.close()
