@@ -12,9 +12,9 @@ INSERT INTO miembro (`id`, `nombre_usuario`, `nombre_persona`, `email`, `telefon
 
 -- 2. Insertar Actividades
 INSERT INTO actividad (`id`, `miembro_id`, `dia`, `hora_inicio`, `duracion`, `tipo`, `lugar`, `nombre_actividad`, `descripcion`) VALUES 
-(1, 1, 'lunes', '18:00', '02:00', 'tecnologia', 'B201','Club de Programacion', 'Unete al club de programacion para aprender y compartir tus conocimientos con otros estudiantes del DCC.'),
-(2, 2, 'miercoles', '17:00', '02:00', 'deporte', 'Cancha deportiva 850','Club de Futbol', 'Participa en el club de futbol para mantenerte activo y disfrutar de este deporte con tus compañeros del DCC.'),
-(3, 3, 'viernes', '16:00', '02:00', 'arte', '-3, 851','Club de Teatro', 'Explora tu creatividad y habilidades de actuación uniéndote al club de teatro del DCC, donde podras participar en diversas producciones y talleres.');
+(1, 1, 'lunes', '18:00', '02:00', 'tecnologia', 'B201','Club de Programacion', 'Únete al club de programación para aprender y compartir tus conocimientos con otros estudiantes del DCC.'),
+(2, 2, 'miercoles', '17:00', '02:00', 'deporte', 'Cancha deportiva 850','Club de Fútbol', 'Participa en el club de fútbol para mantenerte activo y disfrutar de este deporte con tus compañeros del DCC.'),
+(3, 3, 'viernes', '16:00', '02:00', 'arte', '-3, 851','Club de Teatro', 'Explora tu creatividad y habilidades de actuación uniéndote al club de teatro del DCC, donde podrás participar en diversas producciones y talleres.');
 
 -- 3. Insertar Fotos
 INSERT INTO foto (`ruta_archivo`, `nombre_archivo`, `actividad_id`) VALUES 

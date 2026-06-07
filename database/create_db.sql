@@ -16,7 +16,7 @@ DROP DATABASE IF EXISTS `tarea2` ;
 -- -----------------------------------------------------
 -- Schema tarea2
 -- -----------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `tarea2` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `tarea2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `tarea2` ;
 
 -- -----------------------------------------------------
@@ -111,6 +111,27 @@ CREATE TABLE IF NOT EXISTS `tarea2`.`foto` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `tarea2`.`comentario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(80) NOT NULL,
+  `texto_comentario` VARCHAR(300) NOT NULL,
+  `fecha_comentario` TIMESTAMP NOT NULL,
+  `miembro_id` BIGINT NOT NULL,
+  `actividad_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_comentario_miembro1_idx` (`miembro_id` ASC),
+  INDEX `fk_comentario_actividad1_idx` (`actividad_id` ASC),
+  CONSTRAINT `fk_comentario_miembro1`
+    FOREIGN KEY (`miembro_id`)
+    REFERENCES `tarea2`.`miembro` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_comentario_actividad1`
+    FOREIGN KEY (`actividad_id`)
+    REFERENCES `tarea2`.`actividad` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
