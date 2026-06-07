@@ -231,6 +231,13 @@ input[type="checkbox"] {
     margin-top: 20px;
 }
 
+.foto-actividad {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
 #registro-form {
     display: grid;
     grid-template-columns: 1fr 1fr;

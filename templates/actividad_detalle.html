@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %} Detalle Actividad {% endblock %}
+{% block content %}
+    <header class="header">
+        <h1 class="titulo-web">Detalle de Actividad - ExploraDCC</h1>
+        <nav class="nav">
+            <a href="{{ url_for('index') }}" class="button">Salir</a>
+            <a href="{{ url_for('inicio') }}" class="button">Inicio</a>
+            <a href="{{ url_for('actividades') }}" class="button">Actividades</a>
+            <a href="{{ url_for('estadisticas') }}" class="button">Estadísticas</a>
+            <a href="{{ url_for('usuarios') }}" class="button">Usuarios</a>
+        </nav>
+    </header>
+    <main>
+        <div id="error-box" hidden>
+            <h3 id="error-msg"></h3>
+            <ul id="error-list"></ul>
+        </div>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% else %}
+            <section>
+                <h2>{{ actividad.nombre_actividad }}</h2>
+                <p><strong>Descripción:</strong> {{ actividad.descripcion }}</p>
+                <p><strong>Día:</strong> {{ actividad.dia }}</p>
+                <p><strong>Hora de Inicio:</strong> {{ actividad.hora_inicio }}</p>
+                <p><strong>Duración:</strong> {{ actividad.duracion }}</p>
+                <p><strong>Tipo:</strong> {{ actividad.tipo }}</p>
+                <p><strong>Lugar:</strong> {{ actividad.lugar }}</p>
+                <h3>Fotos de la Actividad:</h3>
+                <div class="fotos-actividad">
+                    {% for foto in fotos %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ foto.nombre_archivo) }}" alt="Foto de la actividad" class="foto-actividad">
+                    {% else %}
+                        <p>No hay fotos disponibles para esta actividad.</p>
+                    {% endfor %}
+                </div>
+                <h3>Comentarios:</h3>
+                <div class="comentarios-actividad">
+                    {% for comentario, miembro in comentarios %}
+                        <article class="comentario">
+                            <p><strong><a href="{{ url_for('perfil_usuario', miembro_id = miembro.id)}}">{{ comentario.nombre }}:</a></strong> {{ comentario.texto_comentario }}</p>
+                        </article>
+                    {% else %}
+                        <p>No hay comentarios en esta actividad.</p>
+                    {% endfor %}
+                </div>
+                <button id='agregar-comentario-btn' class='button'>Agregar un Comentario:</button>
+                <form class='form-comentario oculto' id='form-comentario' action="{{ url_for('actividades', actividad_id=actividad.id) }}" method="POST">
+                    <input type="text" name="comentador" placeholder="Nombre del comentador" required><br>
+                    <textarea rows="4" cols="50" minlength="5" name="texto-comentario" placeholder="Escribe tu comentario aquí..." required></textarea><br>
+                    <button type="submit" id="enviar-comentario-btn" class="button">Agregar Comentario</button>
+                </form>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}
+{% block script %}
+    <script src="{{ url_for('static', filename='js/actividad_detalle.js') }}"></script>
+{% endblock %}
