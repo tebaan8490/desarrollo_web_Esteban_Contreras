@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, select, asc, desc, func
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
-from database.models import Base, Miembro, Actividad, Foto, Comuna, Region
+from database.models import Base, Miembro, Actividad, Foto, Comuna, Region, Comentario
 from werkzeug.utils import secure_filename
 import datetime
 import os
@@ -214,6 +214,28 @@ def create_actividad(datos_actividad, archivo_img, miembro_id):
         )
 
         session.add(nueva_foto)
+        session.commit()
+
+        return True
+
+    except Exception as e:
+        session.rollback()
+        print('Ha ocurrido el siguiente error: ' + str(e))
+        return False
+    finally:
+        session.close()
+
+def create_comentario(miembro_id, actividad_id, datos_comentario):
+    session = SessionLocal()
+    try:
+        nuevo_comentario = Comentario(
+            miembro_id=miembro_id,
+            actividad_id=actividad_id,
+            nombre=datos_comentario.get('comentador'),
+            texto_comentario=datos_comentario.get('texto-comentario')
+        )
+
+        session.add(nuevo_comentario)
         session.commit()
 
         return True

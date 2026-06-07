@@ -73,3 +73,17 @@ class Foto(Base):
 
     # Relación
     actividad = relationship('Actividad', back_populates='fotos')
+
+class Comentario(Base):
+    __tablename__ = 'comentario'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    miembro_id = Column(BigInteger, ForeignKey('miembro.id'), nullable=False)
+    actividad_id = Column(Integer, ForeignKey('actividad.id'), nullable=False)
+    nombre = Column(String(80), nullable=False)
+    texto_comentario = Column(Text, nullable=False)
+    fecha_comentario = Column(DateTime, default=func.now(), nullable=False)
+
+    # Relaciones
+    miembro = relationship('Miembro')
+    actividad = relationship('Actividad')

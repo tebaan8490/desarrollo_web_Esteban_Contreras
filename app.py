@@ -26,7 +26,6 @@ def index():
         miembros = sessionq.query(models.Miembro).order_by(models.Miembro.fecha_registro.desc()).limit(5).all()
     except Exception as e:
         print(e)
-        raise e
     finally:
         sessionq.close()
 
@@ -74,7 +73,8 @@ def registro():
         status, msg = db.register_user(datos_formulario)
         
         if status:
-            session['user'] = datos_formulario.get('username') 
+            session['user'] = datos_formulario.get('username')
+            session['id'] = db.get_list_by(models.Miembro, 1, {'nombre_usuario': datos_formulario.get('username')})[0].id
             return redirect(url_for('inicio'))
         
         return render_template('registro.html', comunas=comunas, regiones=regiones, error=str(msg))
@@ -84,11 +84,44 @@ def registro():
     
     return render_template("registro.html", comunas=comunas, regiones=regiones)
 
+@app.route('/actividades/<int:actividad_id>', methods=['GET', 'POST'])
 @app.route('/actividades', methods = ['GET', 'POST'])
-def actividades():
+def actividades(actividad_id=None):
     if not session.get('user'):
         return redirect(url_for('index'))
     
+    if actividad_id:
+        sessionq = db.SessionLocal()
+        try:
+            actividad = sessionq.query(models.Actividad).filter(models.Actividad.id == actividad_id).first()
+            fotos = sessionq.query(models.Foto).filter(models.Foto.actividad_id == actividad_id).all()
+            comentarios = sessionq.query(models.Comentario, models.Miembro).\
+                join(models.Miembro, models.Comentario.miembro_id == models.Miembro.id).\
+                filter(models.Comentario.actividad_id == actividad_id).all()
+        except Exception as e:
+            print(e)
+            return render_template('actividad_detalle.html', errores=['No se pudo obtener la actividad'])
+        finally:
+            sessionq.close()
+
+        if not actividad:
+            return redirect(url_for('actividades'))
+
+        if request.method == 'POST':
+            error = validaciones.validar_datos_comentario(request.form)
+
+            if error != []:
+                return render_template('actividad_detalle.html', actividad=actividad, fotos=fotos, comentarios=comentarios, error=error)
+            
+            datos_comentario = request.form
+            miembro_id = session.get('id')
+            error = db.create_comentario(miembro_id, actividad_id, datos_comentario)
+
+            if error:
+                return render_template('actividad_detalle.html', actividad=actividad, fotos=fotos, comentarios=comentarios, errores="Ha ocurrido un error")
+            
+        return render_template('actividad_detalle.html', actividad=actividad, fotos=fotos, comentarios=comentarios)
+
     filtro = request.args.get('filtro', '')
     actividades_filtradas = db.get_actividades(filtro)
 

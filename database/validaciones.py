@@ -122,3 +122,13 @@ def validar_imagen(archivo_flask):
         return True
     else:
         return False
+    
+def validar_datos_comentario(form_data):
+    errores = []
+    comentarista = form_data.get('comentador', '').strip()
+    texto_comentario = form_data.get('texto-comentario', '').strip()
+
+    if not comentarista or len(comentarista) < 5:
+        errores.append("El comentario debe tener un comentarista de al menos 5 caracteres.")
+
+    return errores
