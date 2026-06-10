@@ -73,10 +73,9 @@ const validarComentario = async () => {
         const data = await response.json();
 
         if (data.success) {
-            const comentarioCard = document.createElement("article");
-            comentarioCard.classList.add("comentario card");
-            comentarioCard.innerText = `${comentario.comentador}: ${comentario.texto}`;
-            comentariosContainer.appendChild(comentarioCard);
+            cargarComentarios();
+            document.querySelector("textarea[name='texto-comentario']").value = "";
+            document.querySelector("input[name='comentador']").value = "";
         }
     }
 }
