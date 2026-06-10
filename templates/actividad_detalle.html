@@ -17,12 +17,14 @@
             <ul id="error-list"></ul>
         </div>
         {% if error %}
-            <p>{{ error }}</p>
+            {% for err in error %}
+                <p style="color: #d32f2f; margin-bottom: 8px;">• {{ err }}</p>
+            {% endfor %}
         {% endif %}
         <section id="actividad-detalle" data-actividad-id="{{ actividad.id }}">
             <h2>{{ actividad.nombre_actividad }}</h2>
             <p><strong>Descripción:</strong> {{ actividad.descripcion }}</p>
-            <p><strong>Día:</strong> {{ actividad.dia }}</p>
+            <p><strong>Días:</strong> {{ actividad.dia | join(', ') }}</p>
             <p><strong>Hora de Inicio:</strong> {{ actividad.hora_inicio }}</p>
             <p><strong>Duración:</strong> {{ actividad.duracion }}</p>
             <p><strong>Tipo:</strong> {{ actividad.tipo }}</p>

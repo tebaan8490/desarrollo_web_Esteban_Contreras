@@ -77,7 +77,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `tarea2`.`actividad` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `miembro_id` BIGINT NOT NULL,
-  `dia` ENUM('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo') NOT NULL,
+  `dia` SET('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo') NOT NULL,
   `hora_inicio` VARCHAR(5) NOT NULL,
   `duracion` VARCHAR(5) NOT NULL,
   `tipo` ENUM('arte', 'deporte', 'tecnologia', 'social', 'recreacion', 'otra') NOT NULL,

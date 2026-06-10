@@ -183,11 +183,14 @@ def create_actividad(datos_actividad, archivo_img, miembro_id):
     session = SessionLocal()
     try:
         dias_seleccionados = datos_actividad.getlist('dia')
-        str_dias = ','.join(dias_seleccionados)
+        str_dias = []
+        for dia in dias_seleccionados:
+            if dia not in str_dias:
+                str_dias.append(dia)
 
         nueva_actividad = Actividad(
             miembro_id=miembro_id,
-            dia=str_dias,
+            dia=set(str_dias),
             hora_inicio=datos_actividad.get('hora'),
             duracion=datos_actividad.get('duracion'),
             tipo=datos_actividad.get('categoria'),

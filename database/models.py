@@ -1,4 +1,5 @@
 from sqlalchemy import DateTime, Column, Integer, BigInteger, String, Enum, ForeignKey, Text, func
+from sqlalchemy.dialects.mysql import SET
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -50,7 +51,7 @@ class Actividad(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     miembro_id = Column(BigInteger, ForeignKey('miembro.id'), nullable=False)
-    dia = Column(Enum('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo', name='dia_enum'), nullable=False)
+    dia = Column(SET('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'), nullable=False)
     hora_inicio = Column(String(5), nullable=False)
     duracion = Column(String(5), nullable=False)
     tipo = Column(Enum('arte', 'deporte', 'tecnologia', 'social', 'recreacion', 'otra', name='tipo_enum'), nullable=False)
@@ -61,6 +62,8 @@ class Actividad(Base):
     # Relaciones
     miembro = relationship('Miembro', back_populates='actividades')
     fotos = relationship('Foto', back_populates='actividad')
+
+    
 
 
 class Foto(Base):

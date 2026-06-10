@@ -28,12 +28,14 @@
                 <h3 id="error-msg"></h3>
                 <ul id="error-list"></ul>
                 {% if error %}
-                <p>{{ error }}</p>
+                    {% for err in error %}
+                        <p style="color: #d32f2f; margin-bottom: 8px;">- {{ err }}</p>
+                    {% endfor %}
                 {% endif %}
             </div>
             <form class="añadir-card oculto" id="añadir-card-form" action="{{ url_for('actividades') }}" enctype="multipart/form-data" method='POST'>
                 <select id="categoria" name="categoria" class="button select" required>
-                    <option value="todas">Todas</option>
+                    <option value="todas">Selecciona una categoría</option>
                     <option value="deporte">Deportiva</option>
                     <option value="arte">Cultural / Arte</option>
                     <option value="tecnologia">Tecnológica</option>
@@ -90,7 +92,7 @@
                         </h3>
                         <p class="card-descripcion"> {{ actividad.descripcion}}
                         <p class="card-info">
-                            <strong>Día:</strong> {{ actividad.dia }}<br>
+                            <strong>Días:</strong> {{ actividad.dia | join(', ') }}<br>
                             <strong>Hora:</strong> {{ actividad.hora_inicio }}<br>
                             <strong>Duración:</strong>{{ actividad.duracion }}<br>
                             <strong>Lugar:</strong> {{ actividad.lugar }}

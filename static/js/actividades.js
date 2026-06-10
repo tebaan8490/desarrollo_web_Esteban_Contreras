@@ -55,6 +55,13 @@ const crearCardActividad = (titulo, descripcion, lugar, dia, hora, imagen) => {
 
 const validarFormularioActividad = () => {
     const errores = [];
+    
+    // Helper: validate category against backend-accepted values
+    const validarCategoria = (categoria) => {
+        const categoriasValidas = ['deporte', 'arte', 'tecnologia', 'otra'];
+        return !categoriasValidas.includes(categoria);
+    };
+    
     const validarTitulo = (titulo) => titulo.trim() === "";
     const validarDescripcion = (descripcion) => descripcion.trim() === "";
     const validarLugar = (lugar) => lugar.trim() === "";
@@ -74,6 +81,7 @@ const validarFormularioActividad = () => {
     };
 
     const formulario = document.forms["añadir-card-form"];
+    const categoria = formulario["categoria"].value;
     const titulo = formulario["titulo-actividad"].value;
     const descripcion = formulario["descripcion"].value;
     const lugar = formulario["lugar"].value;
@@ -85,6 +93,11 @@ const validarFormularioActividad = () => {
 
     const checkboxes = Array.from(checkbox).map(d => d.value)
     const dias = checkboxes.join(", ");
+    
+    // Check category first
+    if (validarCategoria(categoria)) {
+        errores.push("Debes seleccionar una categoría válida.");
+    }
     if (validarTitulo(titulo)) {
         errores.push("El título no puede estar vacío.");
     }
@@ -111,14 +124,20 @@ const validarFormularioActividad = () => {
     if (errores.length > 0) {
         const errorMsg = document.getElementById("error-msg");
         const errorList = document.getElementById("error-list");
+        
         errorMsg.innerText = "Por favor corrige los siguientes errores:";
         errorList.innerHTML = "";
+        
         errores.forEach(error => {
-            let li = document.createElement("li");
-            li.innerText = error;
-            errorList.appendChild(li);
+            const errorParagraph = document.createElement("p");
+            errorParagraph.style.marginBottom = "8px";
+            errorParagraph.style.color = "#d32f2f";
+            errorParagraph.innerText = "• " + error;
+            errorList.appendChild(errorParagraph);
         });
+        
         errorBox.hidden = false;
+        
     } else {
         errorBox.hidden = true;
         formulario.submit();

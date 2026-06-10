@@ -31,7 +31,7 @@
                             <div>
                                 <h3>{{ actividad.nombre_actividad }}</h3>
                                 <strong>Categoría:</strong> {{ actividad.tipo }}<br>
-                                <strong>Días:</strong> {{ actividad.dia }}<br>
+                                <strong>Días:</strong> {{ actividad.dia | join(', ') }}<br>
                                 <strong>Horario:</strong> {{ actividad.hora_inicio }} ({{ actividad.duracion }} hrs)<br>
                                 <strong>Lugar:</strong> {{ actividad.lugar }}
                                 <p>{{ actividad.descripcion }}</p>
