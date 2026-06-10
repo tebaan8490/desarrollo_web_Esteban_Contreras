@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
 from database import models, db, validaciones
 from werkzeug.utils import secure_filename
 import hashlib
@@ -47,6 +48,8 @@ def index():
         return render_template('index.html', usuarios=miembros, error=error)
         
     return render_template('index.html', usuarios=miembros)
+
+
 
 @app.get('/inicio')
 def inicio():
@@ -106,6 +109,7 @@ def actividades(actividad_id=None):
 
     return render_template('actividades.html', actividades=actividades_filtradas)
 
+
 @app.route('/usuarios', methods=['GET'])
 def usuarios():
     if not session.get('user'):
@@ -162,7 +166,7 @@ def actividad_detalle(actividad_id):
     
     if not actividad:
         return redirect(url_for('actividades'))
-    
+
     return render_template('actividad_detalle.html', actividad=actividad[0], fotos=fotos)
 
 @app.get('/comentarios/<int:actividad_id>')
@@ -218,6 +222,74 @@ def estadisticas():
     if not session.get('user'):
         return redirect(url_for('index'))
     return render_template('estadisticas.html')
+
+@app.get('/estadisticas/grafico_miembros')
+def grafico_miembros():
+    if not session.get('user'):
+        return jsonify({"success": False, "error": "No autenticado"}), 401
+
+    sessionq = db.SessionLocal()
+    try:
+        res = sessionq.query(func.date(models.Miembro.fecha_registro).label('dia'), func.count(models.Miembro.id).label('cantidad')).group_by('dia').order_by('dia').all()
+        valores = []
+        data = []
+        
+        for row in res:
+            dia = str(row[0])
+            valores.append(dia)
+            data.append(row[1])
+
+        return jsonify({"success": True, "valores": valores, "data": data})
+    except Exception as e:
+        return jsonify({"success": False, "error": "Error al obtener datos"}), 500
+    finally:
+        sessionq.close()
+
+
+@app.get('/estadisticas/grafico_actividades')
+def grafico_actividades():
+    if not session.get('user'):
+        return jsonify({"success": False, "error": "No autenticado"}), 401
+
+    sessionq = db.SessionLocal()
+    try:
+        res = sessionq.query(models.Actividad.tipo, func.count(models.Actividad.id)).group_by(models.Actividad.tipo).all()
+        valores = []
+        data = []
+
+        for tipo, cantidad in res:
+            valores.append(tipo)
+            data.append(cantidad)
+
+        return jsonify({"success": True, "valores": valores, "data": data})
+    except Exception as e:
+        return jsonify({"success": False, "error": "Error al obtener datos"}), 500
+    finally:
+        sessionq.close()
+
+
+@app.get('/actividades/grafico_actividades_comuna')
+def grafico_actividades_comuna():
+    if not session.get('user'):
+        return jsonify({"success": False, "error": "No autenticado"}), 401
+
+    sessionq = db.SessionLocal()
+    try:
+        res = sessionq.query(models.Comuna.nombre_comuna, func.count(models.Actividad.id)).join(models.Miembro, models.Comuna.id == models.Miembro.comuna_id).join(models.Actividad, models.Miembro.id == models.Actividad.miembro_id).group_by(models.Comuna.id, models.Comuna.nombre_comuna).order_by(models.Comuna.nombre_comuna).all()
+        
+        valores = []
+        data = []
+
+        for nombre, cantidad in res:
+            valores.append(nombre)
+            data.append(cantidad)
+
+        return jsonify({"success": True, "valores": valores, "data": data})
+    except Exception as e:
+        return jsonify({"success": False, "error": "Error al obtener datos"}), 500
+    finally:
+        sessionq.close()
+
 
 if __name__ == "__main__":
     app.run(debug=True)

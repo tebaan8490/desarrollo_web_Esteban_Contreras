@@ -12,18 +12,20 @@
     </header>
     <main>
         <section>
-            <h2>Estadísticas de Actividades</h2>
-            <article id="grafico-estadisticas">
-                <p>A continuación se muestra un gráfico con la distribución de actividades por categoría:</p>
-                <img src="../static/img/Distribución_de_actividades.jpg" alt="Gráfico de Estadísticas">
-            </article>
-            <article>
-                <p>A continuación se muestra un gráfico con la distribución de usuarios según sus roles:</p>
-                <img src="../static/img/Distribución_de_usuarios_según_roles.jpg" alt="Gráfico de Estadísticas">
-            </article>
+            <h2>Miembros Registrados por Día</h2>
+            <div id="grafico-miembros"></div>
+        </section>
+        <section>
+            <h2>Actividades por Tipo</h2>
+            <div id="grafico-tipos"></div>
+        </section>
+        <section>
+            <h2>Actividades por Comuna</h2>
+            <div id="grafico-comuna"></div>
         </section>
     </main>
 {% endblock %}
 {% block script %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="{{ url_for('static', filename='js/estadisticas.js') }}"></script>
 {% endblock %}
