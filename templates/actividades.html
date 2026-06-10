@@ -99,7 +99,7 @@
                             Publicado por <a href="{{ url_for('perfil_usuario', miembro_id = miembro.id) }}">{{ miembro.nombre_persona }}</a><br>
                             Teléfono: {{ miembro.telefono }}<br>
                             Correo: {{ miembro.email }}
-                            <a href="{{ url_for('actividades', actividad_id=actividad.id) }}" class="button actividad">Ver actividad en detalle</a>
+                            <a href="{{ url_for('actividad_detalle', actividad_id=actividad.id) }}" class="button actividad">Ver actividad en detalle</a>
                         </p>
                     </article>
                 {% endfor %}

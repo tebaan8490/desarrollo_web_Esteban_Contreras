@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 from sqlalchemy.orm import sessionmaker
 from database import models, db, validaciones
 from werkzeug.utils import secure_filename
@@ -61,9 +61,6 @@ def registro():
     if request.method == 'POST':
         datos_formulario = request.form.to_dict()
         
-        for llave, valor in datos_formulario.items():
-            print(f"Campo: {llave} | Valor: {valor}")
-        
         errores_validacion = validaciones.validar_datos_registro(datos_formulario)
         
         if errores_validacion:
@@ -84,44 +81,11 @@ def registro():
     
     return render_template("registro.html", comunas=comunas, regiones=regiones)
 
-@app.route('/actividades/<int:actividad_id>', methods=['GET', 'POST'])
 @app.route('/actividades', methods = ['GET', 'POST'])
 def actividades(actividad_id=None):
     if not session.get('user'):
         return redirect(url_for('index'))
     
-    if actividad_id:
-        sessionq = db.SessionLocal()
-        try:
-            actividad = sessionq.query(models.Actividad).filter(models.Actividad.id == actividad_id).first()
-            fotos = sessionq.query(models.Foto).filter(models.Foto.actividad_id == actividad_id).all()
-            comentarios = sessionq.query(models.Comentario, models.Miembro).\
-                join(models.Miembro, models.Comentario.miembro_id == models.Miembro.id).\
-                filter(models.Comentario.actividad_id == actividad_id).all()
-        except Exception as e:
-            print(e)
-            return render_template('actividad_detalle.html', errores=['No se pudo obtener la actividad'])
-        finally:
-            sessionq.close()
-
-        if not actividad:
-            return redirect(url_for('actividades'))
-
-        if request.method == 'POST':
-            error = validaciones.validar_datos_comentario(request.form)
-
-            if error != []:
-                return render_template('actividad_detalle.html', actividad=actividad, fotos=fotos, comentarios=comentarios, error=error)
-            
-            datos_comentario = request.form
-            miembro_id = session.get('id')
-            error = db.create_comentario(miembro_id, actividad_id, datos_comentario)
-
-            if error:
-                return render_template('actividad_detalle.html', actividad=actividad, fotos=fotos, comentarios=comentarios, errores="Ha ocurrido un error")
-            
-        return render_template('actividad_detalle.html', actividad=actividad, fotos=fotos, comentarios=comentarios)
-
     filtro = request.args.get('filtro', '')
     actividades_filtradas = db.get_actividades(filtro)
 
@@ -163,20 +127,91 @@ def usuarios():
 
 @app.get('/perfil_usuario/<int:miembro_id>')
 def perfil_usuario(miembro_id):
+    
+    if not session.get('user'):
+        return redirect(url_for('index'))
+    
     perfil = db.get_list_by(models.Miembro, 1, {'id': miembro_id})
 
     if not perfil:
         return redirect(url_for('inicio'))
     
-    session = db.SessionLocal()
+    sessionq = db.SessionLocal()
     try:
-        actividades = session.query(models.Actividad, models.Foto).outerjoin(models.Foto, models.Actividad.id == models.Foto.actividad_id).filter(models.Actividad.miembro_id == miembro_id).all()
+        actividades = sessionq.query(models.Actividad, models.Foto).outerjoin(models.Foto, models.Actividad.id == models.Foto.actividad_id).filter(models.Actividad.miembro_id == miembro_id).all()
     except Exception as e:
         return render_template('perfil_usuario.html', error='No se pudo obtener el perfil del usuario')
     finally:
-        session.close()
+        sessionq.close()
 
     return render_template('perfil_usuario.html', perfil=perfil[0], actividades=actividades)
+
+@app.route('/actividad/<int:actividad_id>', methods=['GET'])
+def actividad_detalle(actividad_id):
+    if not session.get('user'):
+        return redirect(url_for('index'))
+    sessionq = db.SessionLocal()
+    try:
+        actividad = db.get_list_by(models.Actividad, 1, {'id': actividad_id})
+        fotos = db.get_list_by(models.Foto, None, {'actividad_id': actividad_id})
+
+    except Exception as e:
+        return render_template('actividad_detalle.html', error='No se pudo obtener la actividad')
+    finally:
+        sessionq.close()
+    
+    if not actividad:
+        return redirect(url_for('actividades'))
+    
+    return render_template('actividad_detalle.html', actividad=actividad[0], fotos=fotos)
+
+@app.get('/comentarios/<int:actividad_id>')
+def obtener_comentarios(actividad_id: int):
+    if not session.get('user'):
+        return redirect(url_for('index'))
+
+    sessionq = db.SessionLocal()
+    try:
+        comentarios = db.get_list_by(models.Comentario, None, {'actividad_id': actividad_id})
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": "No se pudieron obtener los comentarios."
+        }), 500
+    finally:
+        sessionq.close()
+
+    comentarios_list = []
+    for comentario in comentarios:
+        comentarios_list.append({
+            "miembro_id": getattr(comentario, 'miembro_id', None),
+            "nombre": getattr(comentario, 'nombre', ''),
+            "fecha_comentario": comentario.fecha_comentario.strftime("%Y-%m-%d %H:%M:%S") if getattr(comentario, 'fecha_comentario', None) else None,
+            "texto": getattr(comentario, 'texto_comentario', '')
+        })
+
+    return jsonify({
+        "success": True,
+        "comentarios": comentarios_list
+    })
+
+@app.post('/comentarios/<int:actividad_id>')
+def postear_comentario(actividad_id: int):
+    if not session.get('user'):
+        return redirect(url_for('index'))
+    
+    error = validaciones.validar_datos_comentario(request.json)
+
+    if error:
+        return jsonify({
+            "success": False,
+            "errores": error
+        }), 400
+
+    miembro_id = session.get('id')
+    db.create_comentario(miembro_id, actividad_id, request.json)
+
+    return jsonify({"success": True})
 
 @app.route('/estadisticas', methods = ['GET'])
 def estadisticas():

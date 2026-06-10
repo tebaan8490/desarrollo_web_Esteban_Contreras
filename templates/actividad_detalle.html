@@ -18,41 +18,34 @@
         </div>
         {% if error %}
             <p>{{ error }}</p>
-        {% else %}
-            <section>
-                <h2>{{ actividad.nombre_actividad }}</h2>
-                <p><strong>Descripción:</strong> {{ actividad.descripcion }}</p>
-                <p><strong>Día:</strong> {{ actividad.dia }}</p>
-                <p><strong>Hora de Inicio:</strong> {{ actividad.hora_inicio }}</p>
-                <p><strong>Duración:</strong> {{ actividad.duracion }}</p>
-                <p><strong>Tipo:</strong> {{ actividad.tipo }}</p>
-                <p><strong>Lugar:</strong> {{ actividad.lugar }}</p>
-                <h3>Fotos de la Actividad:</h3>
-                <div class="fotos-actividad">
-                    {% for foto in fotos %}
-                        <img src="{{ url_for('static', filename='uploads/' ~ foto.nombre_archivo) }}" alt="Foto de la actividad" class="foto-actividad">
-                    {% else %}
-                        <p>No hay fotos disponibles para esta actividad.</p>
-                    {% endfor %}
-                </div>
-                <h3>Comentarios:</h3>
-                <div class="comentarios-actividad">
-                    {% for comentario, miembro in comentarios %}
-                        <article class="comentario">
-                            <p><strong><a href="{{ url_for('perfil_usuario', miembro_id = miembro.id)}}">{{ comentario.nombre }}:</a></strong> {{ comentario.texto_comentario }}</p>
-                        </article>
-                    {% else %}
-                        <p>No hay comentarios en esta actividad.</p>
-                    {% endfor %}
-                </div>
-                <button id='agregar-comentario-btn' class='button'>Agregar un Comentario:</button>
-                <form class='form-comentario oculto' id='form-comentario' action="{{ url_for('actividades', actividad_id=actividad.id) }}" method="POST">
-                    <input type="text" name="comentador" placeholder="Nombre del comentador" required><br>
-                    <textarea rows="4" cols="50" minlength="5" name="texto-comentario" placeholder="Escribe tu comentario aquí..." required></textarea><br>
-                    <button type="submit" id="enviar-comentario-btn" class="button">Agregar Comentario</button>
-                </form>
-            </section>
         {% endif %}
+        <section id="actividad-detalle" data-actividad-id="{{ actividad.id }}">
+            <h2>{{ actividad.nombre_actividad }}</h2>
+            <p><strong>Descripción:</strong> {{ actividad.descripcion }}</p>
+            <p><strong>Día:</strong> {{ actividad.dia }}</p>
+            <p><strong>Hora de Inicio:</strong> {{ actividad.hora_inicio }}</p>
+            <p><strong>Duración:</strong> {{ actividad.duracion }}</p>
+            <p><strong>Tipo:</strong> {{ actividad.tipo }}</p>
+            <p><strong>Lugar:</strong> {{ actividad.lugar }}</p>
+            <h3>Fotos de la Actividad:</h3>
+            <div class="fotos-actividad">
+                {% for foto in fotos %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ foto.nombre_archivo) }}" alt="Foto de la actividad" class="foto-actividad">
+                {% else %}
+                    <p>No hay fotos disponibles para esta actividad.</p>
+                {% endfor %}
+            </div>
+            <section>
+                <h2 class="comentarios-container">Comentarios:</h3>
+                <div id="comentarios-actividad"></div>
+            </section>
+            <button id='agregar-comentario-btn' class='button'>Agregar un Comentario:</button>
+            <form class='form-comentario oculto' id='form-comentario' action="{{ url_for('postear_comentario', actividad_id=actividad.id) }}" method="POST">
+                <input type="text" name="comentador" placeholder="Nombre del comentador" required><br>
+                <textarea rows="4" cols="50" minlength="5" name="texto-comentario" placeholder="Escribe tu comentario aquí..." required></textarea><br>
+                <button type="submit" id="enviar-comentario-btn" class="button">Agregar Comentario</button>
+            </form>
+        </section>
     </main>
 {% endblock %}
 {% block script %}

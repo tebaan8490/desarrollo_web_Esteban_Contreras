@@ -228,11 +228,13 @@ def create_actividad(datos_actividad, archivo_img, miembro_id):
 def create_comentario(miembro_id, actividad_id, datos_comentario):
     session = SessionLocal()
     try:
+        now = datetime.datetime.now()
         nuevo_comentario = Comentario(
             miembro_id=miembro_id,
             actividad_id=actividad_id,
             nombre=datos_comentario.get('comentador'),
-            texto_comentario=datos_comentario.get('texto-comentario')
+            texto_comentario=datos_comentario.get('texto-comentario'),
+            fecha_comentario=now,
         )
 
         session.add(nuevo_comentario)
