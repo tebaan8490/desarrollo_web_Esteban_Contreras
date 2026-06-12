@@ -14,6 +14,8 @@ pip install -r requirements.txt
 
 cd database
 
+- Ejecutar las querys del archivo `create_user.sql`
+
 - Entrar a mysql:
 
 mysql -u cc5002 -p
