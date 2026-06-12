@@ -1,5 +1,6 @@
 import re
 import filetype
+from database import db, models
 
 extensiones_permitidas = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -13,6 +14,8 @@ def validar_datos_registro(data):
     rut = data.get('rut', '').strip().replace(".", "")
     password = data.get('password', '')
     confirm_password = data.get('confirm-password', '')
+    region = data.get('id_region', '').strip()
+    comuna = data.get('id_comuna', '').strip()
     
     if not re.match(r"^[a-zA-Z0-9_]{3,20}$", usuario):
         errores.append("El nombre de usuario debe tener entre 3 y 20 caracteres (letras, números o guion bajo).")
@@ -61,6 +64,21 @@ def validar_datos_registro(data):
     
     if password != confirm_password:
         errores.append("Las contraseñas no coinciden.")
+
+    if not region.isdigit() or not comuna.isdigit():
+        errores.append("Región o comuna inválida.")
+    else:
+        region_id = int(region)
+        comuna_id = int(comuna)
+        region_exists = db.get_list_by(models.Region, 1, {'id': region_id})
+        comuna_exists = db.get_list_by(models.Comuna, 1, {'id': comuna_id})
+
+        if not region_exists:
+            errores.append("La región seleccionada no existe.")
+        if not comuna_exists:
+            errores.append("La comuna seleccionada no existe.")
+        elif comuna_exists[0].region_id != region_id:
+            errores.append("La comuna no corresponde a la región seleccionada.")
 
     return errores
 

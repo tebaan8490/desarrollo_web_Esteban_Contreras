@@ -43,14 +43,11 @@ const validarFormulario = () => {
     };
     const validarRol = () => {
         const rol = document.getElementsByName("rol");
-        let eleccion = null;
-
-        rol.forEach((radio) => {
-            if (radio.checked) {
+        for (let i = 0; i < rol.length; i++) {
+            if (rol[i].checked) {
                 return true;
             }
-        })
-
+        }
         return false;
     };
     const validarPassword = (password) => [
@@ -68,6 +65,8 @@ const validarFormulario = () => {
     const email = formulario["email"].value;
     const telefono = formulario["telefono"].value;
     const rut = formulario["rut"].value;
+    const region = formulario["id_region"].value;
+    const comuna = formulario["id_comuna"].value;
     const password = formulario["password"].value;
     const confirmPassword = formulario["confirm-password"].value;
 
@@ -76,7 +75,7 @@ const validarFormulario = () => {
     const errores = [];
 
     if (!validarUsuario(usuario)) {
-        errores.push("El nombre de usuario no puede estar vacío.\n");
+        errores.push("El nombre de usuario no puede estar vacío o debe tener entre 3 y 20 caracteres.\n");
     }
     if (!validarNombre(nombre)) {
         errores.push("El nombre completo no puede estar vacío y solo puede contener letras y espacios.\n");
@@ -90,6 +89,15 @@ const validarFormulario = () => {
     if (!validarRUT(rut)) {
         errores.push("El RUT no es válido.\n");
     }
+    if (!validarRol()) {
+        errores.push("Debes seleccionar un rol.\n");
+    }
+    if (!region) {
+        errores.push("Debes seleccionar una región.\n");
+    }
+    if (!comuna) {
+        errores.push("Debes seleccionar una comuna.\n");
+    }
     if (PasswordValido === false) {
         errores.push(...passwordErrores);
     }
@@ -98,9 +106,8 @@ const validarFormulario = () => {
     }
     
     if (errores.length > 0) {
-        alert(errores);
+        alert(errores.join(''));
     } else {
-        alert("Te has registrado correctamente!");
         formulario.submit();
     }
 };
