@@ -10,9 +10,9 @@ public interface ActividadRepository extends JpaRepository<Actividad, Integer> {
 
     @Query("""
         SELECT a from Actividad a
-        WHERE LOWER(a.titulo) LIKE LOWER(CONCAT('%', :q, '%'))
-        OR LOWER(a.descripcion) LIKE LOWER(CONCAT('%', :q, '%'))
-        OR LOWER(a.comuna) LIKE LOWER(CONCAT('%', :q, '%'))
+        WHERE LOWER(a.nombreActividad) LIKE LOWER(CONCAT('%', :texto, '%'))
+        OR LOWER(a.descripcion) LIKE LOWER(CONCAT('%', :texto, '%'))
+        OR LOWER(a.miembro.comuna.nombreComuna) LIKE LOWER(CONCAT('%', :texto, '%'))
     """)
-    List<Actividad> buscar(@Param("q") String q);
+    List<Actividad> buscar(@Param("texto") String texto);
 }
