@@ -79,13 +79,10 @@ async function mostrarResultados(actividades) {
         const promedio = document.createElement("p");
 
         try {
-
             const respuesta = await fetch(
                 `/api/notas/promedio?actividadId=${actividad.id}`
             );
-
             const notaPromedio = await respuesta.json();
-
             if (notaPromedio === null) {
                 promedio.textContent = "Nota promedio: Sin evaluaciones";
             } else {
@@ -94,9 +91,7 @@ async function mostrarResultados(actividades) {
             }
 
         } catch (error) {
-
             promedio.textContent = "Nota promedio: No disponible";
-
         }
 
         const boton = document.createElement("button");

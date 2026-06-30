@@ -11,13 +11,30 @@ import com.tareawebs.tareawebs.entities.Actividad;
 public class NotaService {
 
     private final NotaRepository notaRepository;
+    private final ActividadRepository actividadRepository;
 
-    public NotaService(NotaRepository notaRepository) {
+    public NotaService(NotaRepository notaRepository, ActividadRepository actividadRepository) {
         this.notaRepository = notaRepository;
+        this.actividadRepository = actividadRepository;
     }
 
     public Nota guardar(Nota nota) {
-        return notaRepository.save(nota);
+         if (nota.getNota() < 1 || nota.getNota() > 7) {
+            throw new IllegalArgumentException("La nota debe estar entre 1 y 7.");
+        }
+
+        Actividad actividad = actividadRepository
+                .findById(nota.getActividad().getId())
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Actividad inexistente.")
+                );
+
+        Nota nuevaNota = new Nota();
+
+        nuevaNota.setActividad(actividad);
+        nuevaNota.setNota(nota.getNota());
+
+        return notaRepository.save(nuevaNota);
     }
 
     public Double obtenerPromedio(Integer actividadId) {
