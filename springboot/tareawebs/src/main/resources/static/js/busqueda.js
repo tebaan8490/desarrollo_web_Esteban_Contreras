@@ -33,6 +33,10 @@ async function manejarBusqueda() {
     );
 
     const actividades = await respuesta.json();
+ 
+    if (texto !== buscador.value.trim()) {
+        return;
+    }
     mostrarResultados(actividades);
 }
 
