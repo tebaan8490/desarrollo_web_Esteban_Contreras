@@ -23,18 +23,13 @@ public class NotaService {
             throw new IllegalArgumentException("La nota debe estar entre 1 y 7.");
         }
 
-        Actividad actividad = actividadRepository
-                .findById(nota.getActividad().getId())
-                .orElseThrow(() ->
-                    new IllegalArgumentException("Actividad inexistente.")
-                );
-
-        Nota nuevaNota = new Nota();
-
-        nuevaNota.setActividad(actividad);
-        nuevaNota.setNota(nota.getNota());
-
-        return notaRepository.save(nuevaNota);
+        actividadRepository
+        .findById(nota.getActividad().getId())
+        .orElseThrow(() ->
+            new IllegalArgumentException("Actividad inexistente.")
+        );
+        
+        return notaRepository.save(nota);
     }
 
     public Double obtenerPromedio(Integer actividadId) {
