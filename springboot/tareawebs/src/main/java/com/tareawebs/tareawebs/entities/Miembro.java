@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -48,12 +47,6 @@ public class Miembro {
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
-
-    @OneToMany(mappedBy = "miembro")
-    private List<Actividad> actividades;
-
-    @OneToMany(mappedBy = "miembro")
-    private List<Comentario> comentarios;
 
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;

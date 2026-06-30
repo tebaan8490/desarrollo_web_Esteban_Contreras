@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,9 +24,6 @@ public class Comuna {
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
-
-    @OneToMany(mappedBy = "comuna")
-    private List<Miembro> miembros;
 
     public Comuna() {
     }

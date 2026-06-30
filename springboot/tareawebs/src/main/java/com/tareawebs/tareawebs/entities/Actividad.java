@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,15 +21,6 @@ public class Actividad {
     @ManyToOne
     @JoinColumn(name = "miembro_id", nullable = false)
     private Miembro miembro;
-
-    @OneToMany(mappedBy = "actividad")
-    private List<Foto> fotos;
-
-    @OneToMany(mappedBy = "actividad")
-    private List<Comentario> comentarios;
-
-    @OneToMany(mappedBy = "actividad")
-    private List<Nota> notas;
 
     @Column(name = "dia", nullable = false)
     private String dia;
