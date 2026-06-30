@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar actividades</title>
+    <link rel="stylesheet" th:href="@{/css/busqueda.css}">
+</head>
+<body>
+<main class="contenedor">
+    <h1>Buscar actividades</h1>
+    <input id="buscador" type="search" placeholder="Ingrese al menos 3 caracteres..." autocomplete="off">
+    <p id="mensajeBusqueda">
+        Escriba al menos 3 caracteres para comenzar la búsqueda.
+    </p>
+    <section id="resultados">
+    </section>
+</main>
+<div id="modal" class="modal oculto">
+    <div class="modal-contenido">
+        <h2>Evaluar actividad</h2>
+        <label for="nota">
+            Nota (1 a 7)
+        </label>
+        <input id="nota" type="number" min="1" max="7" step="1">
+        <div class="botones-modal">
+            <button id="guardar">
+                Guardar
+            </button>
+            <button id="cancelar">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/busqueda.js}"></script>
+</body>
+</html>
